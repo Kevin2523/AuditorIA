@@ -1,0 +1,65 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.vault_pass
+.vault_pass
+**/sops*.yml
+*.sops
+**/*.crt
+**/*.key
+**/*.crt.*.bak
+**/*.key.*.bak
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / Angular
+node_modules/
+dist/
+coverage/
+.angular/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+**/.npm-cache/
+
+# Ansible
+*.retry
+.ansible/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Logs and temp
+*.log
+tmp/
+temp/
+.cache/
+
+# Documents
+*.pdf
+**.docx
+documentos_para_entregas
+documentos para entregas/
+
+# Windows reserved names
+nul

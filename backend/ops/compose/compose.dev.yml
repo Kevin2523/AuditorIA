@@ -1,0 +1,40 @@
+name: auditoria-backend-dev
+
+volumes:
+  auditoria_pg_data:
+  auditoria_redis_data:
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: auditoria-postgres
+    environment:
+      POSTGRES_USER: auditoria
+      POSTGRES_PASSWORD: auditoria_dev_password
+      POSTGRES_DB: auditoria
+    ports:
+      - "5433:5432"
+    volumes:
+      - auditoria_pg_data:/var/lib/postgresql/data
+      - ../scripts/init-schemas.sql:/docker-entrypoint-initdb.d/01-init-schemas.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U auditoria -d auditoria"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: auditoria-redis
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "6380:6379"
+    volumes:
+      - auditoria_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
