@@ -1,23 +1,25 @@
 @import "tailwindcss";
 
 /* ============================================================
-   AUDITORIA AI — DESIGN SYSTEM THEME (Tailwind v4)
+   AUDITORIA AI — EXECUTIVE EMERALD & DEEP SLATE THEME
+   Replaces old nextAudit blue with Executive Emerald/Teal
 ============================================================ */
 @theme {
-  --font-display: 'Outfit', -apple-system, sans-serif;
+  --font-display: 'Plus Jakarta Sans', -apple-system, sans-serif;
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  --color-primary-50:  #EFF6FF;
-  --color-primary-100: #DBEAFE;
-  --color-primary-200: #BFDBFE;
-  --color-primary-300: #93C5FD;
-  --color-primary-400: #60A5FA;
-  --color-primary-500: #3B82F6;
-  --color-primary-600: #2563EB;
-  --color-primary-700: #1D4ED8;
-  --color-primary-800: #1E40AF;
-  --color-primary-900: #1E3A8A;
+  /* Executive Teal/Emerald Spectrum (No blue!) */
+  --color-primary-50:  #F0FDF4;
+  --color-primary-100: #DCFCE7;
+  --color-primary-200: #BBF7D0;
+  --color-primary-300: #86EFAC;
+  --color-primary-400: #4ADE80;
+  --color-primary-500: #10B981;
+  --color-primary-600: #059669;
+  --color-primary-700: #047857;
+  --color-primary-800: #065F46;
+  --color-primary-900: #064E3B;
 
   --color-surface:    #F8FAFC;
   --color-surface-2:  #F1F5F9;
@@ -46,8 +48,15 @@
 }
 
 /* ============================================================
-   GLOBAL BASE STYLES
+   GLOBAL BASE STYLES & LAYOUT FIXES
 ============================================================ */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
@@ -56,8 +65,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  background-color: var(--color-surface);
-  color: #1E293B;
+  background-color: #F4F6F9;
+  color: #0F172A;
   line-height: 1.6;
 }
 
@@ -70,4 +79,11 @@ body {
 /* Code blocks */
 pre, code {
   font-family: var(--font-mono);
+}
+
+/* Fix text truncation and flex layout bugs */
+.truncate-clean {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

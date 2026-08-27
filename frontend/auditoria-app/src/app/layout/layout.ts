@@ -32,6 +32,7 @@ export class Layout {
   readonly globalQuery = signal('');
   readonly notificationsOpen = signal(false);
   readonly settingsOpen = signal(false);
+  readonly currentUrl = signal('/dashboard');
 
   sections = ['MENU PRINCIPAL', 'ADMINISTRACION', 'CONFIGURACION Y AYUDA'];
 
@@ -45,12 +46,18 @@ export class Layout {
   ];
 
   constructor(private router: Router) {
+    this.currentUrl.set(this.router.url);
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe(e => {
+        this.currentUrl.set(e.urlAfterRedirects);
         const item = this.navItems.find(n => e.urlAfterRedirects.startsWith(n.route));
         if (item) this.currentTitle = item.label;
       });
+  }
+
+  get isAssistantRoute(): boolean {
+    return this.currentUrl().startsWith('/assistant');
   }
 
   getItemsBySection(section: string): NavItem[] {

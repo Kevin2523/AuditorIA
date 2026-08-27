@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuditorIA — AI Security Command Center v3.0</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           AUDITORIA 3.0 — CYBER GLASSMORTIC BRAND SYSTEM
+           ========================================================================== */
+        :root {
+            /* Background Depth Spectrum */
+            --bg-darkest: #05070a;
+            --bg-main: #090d16;
+            --bg-card: rgba(15, 23, 42, 0.65);
+            --bg-card-hover: rgba(21, 32, 57, 0.85);
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            
+            /* Accent Gradients & Neon Glows */
+            --cyan-primary: #00f2fe;
+            --cyan-secondary: #4facfe;
+            --purple-accent: #7f56d9;
+            --violet-glow: #6366f1;
+            
+            /* Status Colors */
+            --emerald-secure: #10b981;
+            --emerald-glow: rgba(16, 185, 129, 0.25);
+            --amber-warning: #f59e0b;
+            --amber-glow: rgba(245, 158, 11, 0.25);
+            --rose-danger: #f43f5e;
+            --rose-glow: rgba(244, 63, 94, 0.3);
+            
+            /* Border Systems */
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-bright: rgba(0, 242, 254, 0.3);
+            --border-glass: rgba(255, 255, 255, 0.12);
+            
+            /* Typography Colors */
+            --text-heading: #f8fafc;
+            --text-body: #94a3b8;
+            --text-muted: #64748b;
+            --text-cyber: #38bdf8;
+
+            /* Fonts */
+            --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Shadows & Blur */
+            --glass-blur: blur(16px);
+            --glow-cyan: 0 0 25px rgba(0, 242, 254, 0.25);
+            --glow-purple: 0 0 30px rgba(127, 86, 217, 0.3);
+        }
+
+        /* Base Resets */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-darkest);
+            color: var(--text-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(0, 242, 254, 0.07) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(127, 86, 217, 0.08) 0%, transparent 45%),
+                linear-gradient(to bottom, var(--bg-darkest), var(--bg-main));
+            background-attachment: fixed;
+        }
+
+        /* Ambient Cyber Grid Overlay */
+        .cyber-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Main App Shell Layout */
+        .app-shell {
+            display: grid;
+            grid-template-rows: 72px 1fr 40px;
+            grid-template-columns: 260px 1fr;
+            grid-template-areas:
+                "header header"
+                "sidebar content"
+                "footer footer";
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==========================================================================
+           HEADER SYSTEM
+           ========================================================================== */
+        header {
+            grid-area: header;
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: var(--glass-blur);
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.75rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+        }
+
+        .logo-icon-wrapper {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(127, 86, 217, 0.3));
+            border: 1px solid var(--border-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--glow-cyan);
+            position: relative;
+        }
+
+        .logo-icon-wrapper svg {
+            width: 22px;
+            height: 22px;
+            stroke: var(--cyan-primary);
+            fill: none;
+            stroke-width: 2.2;
+        }
+
+        .logo-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            border: 1px solid var(--cyan-primary);
+            animation: pulse-ring 2.5s infinite ease-out;
+            opacity: 0;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+
+        .brand-text {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .brand-text span.badge-ai {
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--purple-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border: 1px solid var(--border-bright);
+            padding: 2px 7px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .header-status-pills {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-subtle);
+            padding: 0.45rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.82rem;
+            color: var(--text-heading);
+            font-weight: 500;
+        }
+
+        .dot-status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dot-status.green {
+            background-color: var(--emerald-secure);
+            box-shadow: 0 0 10px var(--emerald-secure);
+        }
+
+        .user-profile-widget {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            padding: 0.4rem 0.8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .user-profile-widget:hover {
+            border-color: var(--border-bright);
+            background: var(--bg-card-hover);
+        }
+
+        .avatar-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.85rem;
+        }
+
+        /* ==========================================================================
+           SIDEBAR SYSTEM
+           ========================================================================== */
+        aside {
+            grid-area: sidebar;
+            background: rgba(9, 13, 22, 0.6);
+            backdrop-filter: var(--glass-blur);
+            border-right: 1px solid var(--border-subtle);
+            padding: 1.5rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            font-weight: 700;
+            padding-left: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .nav-item a {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            padding: 0.75rem 0.9rem;
+            color: var(--text-body);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .nav-item a svg {
+            width: 18px;
+            height: 18px;
+            stroke: var(--text-muted);
+            stroke-width: 2;
+            fill: none;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item a:hover {
+            color: var(--text-heading);
+            background: var(--bg-card-hover);
+        }
+
+        .nav-item a:hover svg {
+            stroke: var(--cyan-primary);
+        }
+
+        .nav-item.active a {
+            color: var(--cyan-primary);
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            font-weight: 600;
+        }
+
+        .nav-item.active a svg {
+            stroke: var(--cyan-primary);
+        }
+
+        .nav-item .badge-count {
+            margin-left: auto;
+            background: var(--rose-danger);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .system-health-card {
+            margin-top: auto;
+            background: linear-gradient(135deg, rgba(127, 86, 217, 0.15), rgba(0, 242, 254, 0.05));
+            border: 1px solid var(--border-glass);
+            border-radius: 14px;
+            padding: 1.1rem;
+        }
+
+        .health-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 94%;
+            background: linear-gradient(90deg, var(--cyan-primary), var(--emerald-secure));
+            border-radius: 10px;
+        }
+
+        /* ==========================================================================
+           MAIN CONTENT SYSTEM (CHATOPS & METRICS)
+           ========================================================================== */
+        main {
+            grid-area: content;
+            padding: 1.75rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow-y: auto;
+        }
+
+        /* Top Metrics Grid */
+        .metrics-banner {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-bright);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .metric-info p {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+
+        .metric-info h3 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            margin-top: 0.25rem;
+            font-family: var(--font-sans);
+        }
+
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .metric-icon.cyan {
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--cyan-primary);
+        }
+
+        .metric-icon.rose {
+            background: var(--rose-glow);
+            color: var(--rose-danger);
+        }
+
+        .metric-icon.emerald {
+            background: var(--emerald-glow);
+            color: var(--emerald-secure);
+        }
+
+        .metric-icon.amber {
+            background: var(--amber-glow);
+            color: var(--amber-warning);
+        }
+
+        .metric-icon svg {
+            width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 2;
+        }
+
+        /* ChatOps Main Workspace Grid */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 1.5rem;
+            flex: 1;
+            min-height: 520px;
+        }
+
+        /* Terminal Glass Window */
+        .chat-terminal-container {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .terminal-header {
+            background: rgba(15, 23, 42, 0.9);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 1rem 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-title-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .terminal-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .t-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+        }
+
+        .t-dot.red { background: #ff5f56; }
+        .t-dot.yellow { background: #ffbd2e; }
+        .t-dot.green { background: #27c93f; }
+
+        .terminal-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.01em;
+        }
+
+        .chat-messages-area {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .msg-bubble-group {
+            display: flex;
+            gap: 1rem;
+            max-width: 85%;
+        }
+
+        .msg-bubble-group.user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .avatar-bot {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--violet-glow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 800;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            box-shadow: var(--glow-cyan);
+        }
+
+        .avatar-user {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .msg-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .msg-meta {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .bubble-text {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid var(--border-subtle);
+            border-radius: 14px;
+            border-top-left-radius: 2px;
+            padding: 1rem 1.15rem;
+            color: var(--text-heading);
+            font-size: 0.92rem;
+            line-height: 1.55;
+        }
+
+        .user .bubble-text {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(127, 86, 217, 0.35));
+            border-color: rgba(99, 102, 241, 0.4);
+            border-radius: 14px;
+            border-top-right-radius: 2px;
+        }
+
+        /* Cyber Remediation Card inside Bot Message */
+        .remediation-card {
+            margin-top: 0.75rem;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid var(--border-bright);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.08);
+        }
+
+        .remediation-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--cyan-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .remediation-header svg {
+            width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2;
+        }
+
+        .code-snippet-box {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            background: rgba(5, 7, 10, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: #38bdf8;
+            margin: 0.5rem 0;
+            overflow-x: auto;
+        }
+
+        .remediation-actions {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 0.75rem;
+        }
+
+        .btn-action-primary {
+            background: linear-gradient(135deg, var(--cyan-primary), var(--cyan-secondary));
+            color: #05070a;
+            font-weight: 700;
+            font-size: 0.8rem;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .btn-action-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-heading);
+            font-weight: 600;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-glass);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-heading);
+        }
+
+        /* Terminal Input Area */
+        .terminal-input-bar {
+            background: rgba(15, 23, 42, 0.95);
+            border-top: 1px solid var(--border-subtle);
+            padding: 1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(5, 7, 10, 0.6);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 0.4rem 0.6rem 0.4rem 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .input-row:focus-within {
+            border-color: var(--cyan-primary);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-heading);
+            font-family: var(--font-sans);
+            font-size: 0.92rem;
+            resize: none;
+            height: 28px;
+        }
+
+        .btn-mic {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-body);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-mic:hover {
+            color: var(--cyan-primary);
+            border-color: var(--cyan-primary);
+            background: rgba(0, 242, 254, 0.1);
+        }
+
+        .btn-mic.active {
+            background: var(--rose-danger);
+            color: #fff;
+            border-color: var(--rose-danger);
+            animation: pulse-mic 1.5s infinite;
+        }
+
+        @keyframes pulse-mic {
+            0% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(244, 63, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+        }
+
+        .btn-send {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--cyan-primary), var(--violet-glow));
+            border: none;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-send svg {
+            width: 18px; height: 18px; stroke: #000; fill: none; stroke-width: 2.2;
+        }
+
+        .btn-send:hover {
+            box-shadow: var(--glow-cyan);
+            transform: scale(1.05);
+        }
+
+        .input-hint {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0.25rem;
+        }
+
+        .input-hint kbd {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1px 5px;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--text-body);
+        }
+
+        /* Right Panel: Playbooks & Quick Prompts */
+        .right-control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .panel-card {
+            background: var(--bg-card);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 1.25rem;
+        }
+
+        .panel-card-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .panel-card-title svg {
+            width: 18px; height: 18px; stroke: var(--cyan-primary); fill: none; stroke-width: 2;
+        }
+
+        .quick-prompts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .prompt-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 0.75rem;
+            text-align: left;
+            color: var(--text-body);
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .prompt-btn:hover {
+            background: rgba(0, 242, 254, 0.06);
+            border-color: var(--border-bright);
+            color: var(--text-heading);
+            transform: translateX(3px);
+        }
+
+        .prompt-btn svg {
+            width: 14px; height: 14px; stroke: var(--text-muted); fill: none; stroke-width: 2;
+        }
+
+        /* Footers */
+        footer {
+            grid-area: footer;
+            background: rgba(5, 7, 10, 0.95);
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-authors {
+            font-weight: 700;
+            color: var(--cyan-primary);
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cyber-grid"></div>
+
+    <div class="app-shell">
+
+        <!-- HEADER -->
+        <header>
+            <a href="#" class="brand-logo">
+                <div class="logo-icon-wrapper">
+                    <div class="logo-pulse"></div>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <circle cx="12" cy="11" r="3"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    AuditorIA <span class="badge-ai">3.0 PRO</span>
+                </div>
+            </a>
+
+            <div class="header-status-pills">
+                <div class="status-pill">
+                    <div class="dot-status green"></div>
+                    Sensores Fleet: <strong>142 Activos</strong>
+                </div>
+                <div class="status-pill">
+                    <div class="dot-status green"></div>
+                    Motor IA: <strong>Ollama v0.5 (Online)</strong>
+                </div>
+
+                <div class="user-profile-widget">
+                    <div class="avatar-circle">AD</div>
+                    <div style="font-size:0.8rem; font-weight:600; color:var(--text-heading);">
+                        Admin Auditoría
+                        <div style="font-size:0.7rem; color:var(--text-muted);">UTP Coclé</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- SIDEBAR -->
+        <aside>
+            <div>
+                <div class="nav-group-title">Módulos Principales</div>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#">
+                            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                            Dashboard General
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="#">
+                            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            ChatOps Terminal IA
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                            Inventario / Nodos Fleet
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Alertas e Incidentes
+                            <span class="badge-count">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#">
+                            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                            Cumplimiento CIS / ISO
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="system-health-card">
+                <div class="health-title">
+                    <span>Postura Global de Seguridad</span>
+                    <span style="color:var(--emerald-secure);">94%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <div style="font-size:0.72rem; color:var(--text-muted);">
+                    Último escaneo automatizado: hace 4 min
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main>
+            <!-- TOP METRICS -->
+            <section class="metrics-banner">
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <p>Índice CIS Benchmark</p>
+                        <h3>94.8%</h3>
+                    </div>
+                    <div class="metric-icon emerald">
+                        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <p>Alertas Críticas</p>
+                        <h3 style="color:var(--rose-danger);">02</h3>
+                    </div>
+                    <div class="metric-icon rose">
+                        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <p>Equipos Escaneados</p>
+                        <h3>142</h3>
+                    </div>
+                    <div class="metric-icon cyan">
+                        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                </div>
+
+                <div class="metric-card">
+                    <div class="metric-info">
+                        <p>Playbooks Ejecutados</p>
+                        <h3>38</h3>
+                    </div>
+                    <div class="metric-icon amber">
+                        <svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CHATOPS WORKSPACE -->
+            <div class="workspace-grid">
+                <!-- CHAT TERMINAL -->
+                <div class="chat-terminal-container">
+                    <div class="terminal-header">
+                        <div class="terminal-title-area">
+                            <div class="terminal-dots">
+                                <div class="t-dot red"></div>
+                                <div class="t-dot yellow"></div>
+                                <div class="t-dot green"></div>
+                            </div>
+                            <span class="terminal-title">AuditorIA Terminal ChatOps — Asistente Inteligente de Auditoría</span>
+                        </div>
+                        <div style="font-size:0.75rem; color:var(--emerald-secure); font-weight:600; display:flex; align-items:center; gap:0.4rem;">
+                            <span class="dot-status green"></span> WebSockets Conectados
+                        </div>
+                    </div>
+
+                    <!-- MESSAGES AREA -->
+                    <div class="chat-messages-area">
+                        <!-- Bot Message -->
+                        <div class="msg-bubble-group">
+                            <div class="avatar-bot">AI</div>
+                            <div class="msg-content">
+                                <div class="msg-meta">AuditorIA AI Engine · 09:15 AM</div>
+                                <div class="bubble-text">
+                                    ¡Hola, Administrador! He completado la auditoría heurística en el <strong>Laboratorio 2 (UTP Coclé)</strong>. Se detectó una inconsistencia de seguridad en la estación <code>LAB2-WS04</code>: BitLocker se encuentra desactivado y el puerto SSH (22) está expuesto.
+                                    
+                                    <div class="remediation-card">
+                                        <div class="remediation-header">
+                                            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.58 6.58a2 2 0 0 1-3-2.83l6.57-6.6a6 6 0 0 1 7.93-7.91l-3.76 3.76z"/></svg>
+                                            Playbook Ansible Sugerido — Remedación Automática
+                                        </div>
+                                        <div class="code-snippet-box">
+ansible-playbook -i inventory/fleet.ini playbooks/enable_bitlocker.yml --extra-vars "target=LAB2-WS04"
+                                        </div>
+                                        <div class="remediation-actions">
+                                            <button class="btn-action-primary">
+                                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                                Ejecutar Remedación Ahora
+                                            </button>
+                                            <button class="btn-action-secondary">Generar Reporte PDF</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- User Message -->
+                        <div class="msg-bubble-group user">
+                            <div class="avatar-user">AD</div>
+                            <div class="msg-content">
+                                <div class="msg-meta">Admin · 09:16 AM</div>
+                                <div class="bubble-text">
+                                    ¿Cuál es el estado general del Laboratorio 1 y qué vulnerabilidades críticas restan?
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TERMINAL INPUT -->
+                    <div class="terminal-input-bar">
+                        <div class="input-row">
+                            <input type="text" class="chat-input" placeholder="Pregunta a AuditorIA o escribe un comando (ej: /audit lab1)...">
+                            <button class="btn-mic" title="Dictar por voz">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                            </button>
+                            <button class="btn-send" title="Enviar mensaje">
+                                <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                            </button>
+                        </div>
+                        <div class="input-hint">
+                            <span>Comandos rápidos: <kbd>/scan</kbd> <kbd>/report</kbd> <kbd>/remediate</kbd></span>
+                            <span>Presiona <kbd>Enter</kbd> para enviar</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT PANEL: QUICK AUDIT SUITE -->
+                <div class="right-control-panel">
+                    <div class="panel-card">
+                        <div class="panel-card-title">
+                            <svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            Consultas Frecuentes
+                        </div>
+                        <div class="quick-prompts-list">
+                            <button class="prompt-btn">
+                                <span>¿Estado de seguridad de laboratorios?</span>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                            <button class="prompt-btn">
+                                <span>Generar reporte CIS Compliance</span>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                            <button class="prompt-btn">
+                                <span>Listar sesiones SSH activas</span>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                            <button class="prompt-btn">
+                                <span>Analizar parches de Windows pendientes</span>
+                                <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="panel-card" style="background: linear-gradient(135deg, rgba(0, 242, 254, 0.05), rgba(127, 86, 217, 0.1));">
+                        <div class="panel-card-title" style="color:var(--cyan-primary);">
+                            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Asistencia por Voz NLP
+                        </div>
+                        <p style="font-size:0.8rem; color:var(--text-body); line-height:1.4;">
+                            Puedes presionar el micrófono en la terminal para enviar órdenes por voz. AuditorIA procesará el audio con modelo Web Speech API + Ollama.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer>
+            <div>AuditorIA Security Suite v3.0 — AI Powered Audit & Compliance</div>
+            <div>Universidad Tecnológica de Panamá · Centro Regional de Coclé</div>
+            <div class="footer-authors">MENA · SOTO · MONTENEGRO · SÁNCHEZ</div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

@@ -119,7 +119,7 @@ export class Dashboard {
   downloadReport() {
     const generatedAt = new Date().toISOString();
     const lines = [
-      'AuditorIA AI - Reporte operativo',
+      'AuditorIA - Reporte operativo',
       `Generado,${generatedAt}`,
       '',
       'Metrica,Valor',

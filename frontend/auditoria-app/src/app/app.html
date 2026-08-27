@@ -33,7 +33,7 @@
                   🔍<div class="avatar-dot"></div>
               </div>
               <div class="chat-header-info">
-                  <div class="chat-agent-name">AuditorIA AI</div>
+                  <div class="chat-agent-name">AuditorIA</div>
                   <div class="chat-agent-sub">Asistente de auditoría · En línea ahora</div>
               </div>
               <div class="header-actions">
@@ -67,7 +67,7 @@
                   <div class="msg-row" *ngIf="msg.sender === 'bot' && !msg.isTyping" [id]="msg.id">
                       <div class="msg-ava bot-ava">🔍</div>
                       <div class="msg-body">
-                          <div class="msg-meta">AuditorIA AI · {{msg.time}}</div>
+                          <div class="msg-meta">AuditorIA · {{msg.time}}</div>
                           
                           <!-- En Angular renderizamos el HTML filtrado -->
                           <div class="bubble bot" [class.error-bubble]="msg.isError" [innerHTML]="bypassHtml(msg.text)"></div>

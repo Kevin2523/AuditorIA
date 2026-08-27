@@ -1,5 +1,5 @@
 {
-  "name": "Agente Mixto",
+  "name": "Agente Mixto v2",
   "nodes": [
     {
       "parameters": {
@@ -8,13 +8,13 @@
         "responseMode": "responseNode",
         "options": {}
       },
-      "id": "45585b93-ca66-49f3-9988-96cfca4ee900",
+      "id": "7dbca0d5-7bf4-4e2f-b0c2-ccfb0c04cbf0",
       "name": "Webhook1",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        -736,
-        -32
+        -1008,
+        80
       ],
       "webhookId": "4c3fbd44-ee11-416f-b5ff-a26345f92b15"
     },
@@ -29,164 +29,13 @@
           "allowUnauthorizedCerts": true
         }
       },
-      "id": "d8fa98b2-468e-4c3c-a2f8-6d488a078443",
+      "id": "0eb8ce84-7d51-4565-a2a7-654ad2ea3d0a",
       "name": "GET TOKEN",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        -544,
-        -32
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/global/policies",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"name\": \"{{ $('Webhook1').item.json.body.name }}\",\n  \"query\": \"{{ $('Webhook1').item.json.body.query }}\",\n  \"description\": \"{{ $('Webhook1').item.json.body.description }}\",\n  \"resolution\": \"{{ $('Webhook1').item.json.body.resolution }}\",\n  \"platform\": \"{{ $('Webhook1').item.json.body.platform }}\"\n}",
-        "options": {
-          "allowUnauthorizedCerts": true
-        }
-      },
-      "id": "549f853c-b228-4a40-b016-7a04a102da35",
-      "name": "Create Policy Endpoint",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        0,
-        -80
-      ]
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "8e75eabe-75ec-47d6-9692-2c3da91f639a",
-      "name": "Respuesta Política",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
-      "position": [
-        208,
-        -80
-      ]
-    },
-    {
-      "parameters": {
-        "url": "https://host.docker.internal:1337/api/v1/fleet/hosts",
-        "sendQuery": true,
-        "queryParameters": {
-          "parameters": [
-            {
-              "name": "status",
-              "value": "online"
-            },
-            {
-              "name": "per_page",
-              "value": "1000"
-            }
-          ]
-        },
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
-            }
-          ]
-        },
-        "options": {
-          "allowUnauthorizedCerts": true
-        }
-      },
-      "id": "3e54c186-866a-45ec-bb3d-5ca7fc54cc31",
-      "name": "Get Hosts",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        -16,
-        128
-      ]
-    },
-    {
-      "parameters": {
-        "method": "PATCH",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"query\": \"{{ $('Webhook1').item.json.body.query }}\"\n}",
-        "options": {
-          "allowUnauthorizedCerts": true
-        }
-      },
-      "id": "f31a1d18-a950-4b41-b2a9-97a41efffdbb",
-      "name": "Update Query Placeholder",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        176,
-        128
-      ]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1/run",
-        "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            {
-              "name": "Authorization",
-              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
-            }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
-        "options": {
-          "allowUnauthorizedCerts": true
-        }
-      },
-      "id": "07db8f4b-4c04-4e71-9454-54cde7b0c054",
-      "name": "Run Query Campaign",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [
-        384,
-        144
-      ]
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "id": "ee73afb7-35b9-431f-ad2c-9e6de9feb4e9",
-      "name": "Respuesta Query",
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
-      "position": [
-        576,
-        144
+        -800,
+        80
       ]
     },
     {
@@ -230,8 +79,7 @@
                     "rightValue": "live_query",
                     "operator": {
                       "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
+                      "operation": "equals"
                     }
                   }
                 ],
@@ -245,11 +93,166 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        -320,
-        -32
+        -608,
+        80
       ],
-      "id": "2d4bc880-c319-4cb0-8b3f-1d78c1eae5e0",
+      "id": "01a5b4c2-d7f4-4c8a-9ade-7ef568c3cda0",
       "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/global/policies",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $('Webhook1').item.json.body.name }}\",\n  \"query\": \"{{ $('Webhook1').item.json.body.query }}\",\n  \"description\": \"{{ $('Webhook1').item.json.body.description }}\",\n  \"resolution\": \"{{ $('Webhook1').item.json.body.resolution }}\",\n  \"platform\": \"{{ $('Webhook1').item.json.body.platform }}\"\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "0b9b6877-2e08-44e6-8107-72ea1a5c8d20",
+      "name": "Create Policy Endpoint",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -304,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, type: 'policy', data: $json }) }}",
+        "options": {}
+      },
+      "id": "31f9339e-bf1f-427d-ac94-33a74577fa20",
+      "name": "Respuesta Política",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -112,
+        -32
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://host.docker.internal:1337/api/v1/fleet/hosts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "status",
+              "value": "online"
+            },
+            {
+              "name": "per_page",
+              "value": "1000"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "76f05c32-94c9-4bfb-8130-356640ecb6e4",
+      "name": "Get Hosts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -304,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $('Webhook1').item.json.body.query }}\"\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "197ccc0b-2f15-4423-9150-424a6033559d",
+      "name": "Update Query",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -112,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1/run",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('GET TOKEN').item.json.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query_ids\": [1],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "b974ce78-da4b-4923-a39d-aa1a3be5502a",
+      "name": "Run Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        96,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, type: 'query', data: $json }) }}",
+        "options": {}
+      },
+      "id": "3ad23cd7-b9e1-4bd3-b321-b428e6b2a292",
+      "name": "Respuesta Query",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        304,
+        176
+      ]
     }
   ],
   "pinData": {},
@@ -259,50 +262,6 @@
         [
           {
             "node": "GET TOKEN",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create Policy Endpoint": {
-      "main": [
-        [
-          {
-            "node": "Respuesta Política",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Get Hosts": {
-      "main": [
-        [
-          {
-            "node": "Update Query Placeholder",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update Query Placeholder": {
-      "main": [
-        [
-          {
-            "node": "Run Query Campaign",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Run Query Campaign": {
-      "main": [
-        [
-          {
-            "node": "Respuesta Query",
             "type": "main",
             "index": 0
           }
@@ -337,6 +296,50 @@
           }
         ]
       ]
+    },
+    "Create Policy Endpoint": {
+      "main": [
+        [
+          {
+            "node": "Respuesta Política",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Hosts": {
+      "main": [
+        [
+          {
+            "node": "Update Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Query": {
+      "main": [
+        [
+          {
+            "node": "Run Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Report": {
+      "main": [
+        [
+          {
+            "node": "Respuesta Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -344,10 +347,10 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "48983c83-7bd9-4531-ba39-8fc97479a9ca",
+  "versionId": "425ba31a-6388-4a6c-9df1-53f70ff03b33",
   "meta": {
     "instanceId": "b37024ae00e77b49e4b70a47b7ea8c7c9142cbf50e874e76ccfc2011f8c2cc18"
   },
-  "id": "h2EQEj44515SGg4h",
+  "id": "VMIncCJsqFV2yZAQ",
   "tags": []
 }

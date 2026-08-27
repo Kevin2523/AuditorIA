@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuditorIA AI — Executive Studio v3.0</title>
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           AUDITORIA AI — EXECUTIVE STUDIO (180° RADICAL INNOVATIVE DESIGN)
+           ========================================================================== */
+        :root {
+            /* Palette: Charcoal Studio & Clean Ivory Slate */
+            --bg-body: #f4f6f9;
+            --bg-surface: #ffffff;
+            --bg-card-subtle: #f8fafc;
+            --bg-dark-accent: #0f172a;
+            
+            /* Text hierarchy */
+            --text-heading: #0f172a;
+            --text-body: #334155;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+
+            /* Primary Brand Accent: Sapphire Indigo */
+            --accent-brand: #3b82f6;
+            --accent-brand-dark: #1d4ed8;
+            --accent-soft: #eff6ff;
+
+            /* Status & Highlights */
+            --emerald: #10b981;
+            --emerald-bg: #ecfdf5;
+            --amber: #f59e0b;
+            --amber-bg: #fffbeb;
+            --rose: #ef4444;
+            --rose-bg: #fef2f2;
+
+            /* Borders & Shadows */
+            --border-hairline: rgba(226, 232, 240, 0.8);
+            --border-strong: #cbd5e1;
+            --shadow-float: 0 20px 40px -15px rgba(15, 23, 42, 0.07), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+            --shadow-card: 0 4px 16px -2px rgba(15, 23, 42, 0.04);
+            
+            --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-body);
+            color: var(--text-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ==========================================================================
+           HEADER ULTRA-MINIMALISTA FLOTANTE (ESTILO STUDIO)
+           ========================================================================== */
+        header.studio-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-hairline);
+            height: 68px;
+            padding: 0 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-group {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .studio-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+        }
+
+        .brand-mark {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .brand-text-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-text-title {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+
+        .brand-text-subtitle {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--accent-brand);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 3px;
+        }
+
+        /* PALETA DE COMANDO Y NAVEGACIÓN REORGANIZADA */
+        .studio-nav-tabs {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--bg-card-subtle);
+            border: 1px solid var(--border-hairline);
+            padding: 4px;
+            border-radius: 12px;
+        }
+
+        .tab-btn {
+            border: none;
+            background: transparent;
+            padding: 0.45rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn svg {
+            width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-heading);
+        }
+
+        .tab-btn.active {
+            background: var(--bg-surface);
+            color: var(--text-heading);
+            box-shadow: var(--shadow-card);
+        }
+
+        /* HEADER CONTROLS */
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .command-search-trigger {
+            background: var(--bg-card-subtle);
+            border: 1px solid var(--border-hairline);
+            border-radius: 10px;
+            padding: 0.45rem 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .command-search-trigger:hover {
+            border-color: var(--border-strong);
+            background: var(--bg-surface);
+        }
+
+        .kbd-badge {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-slate);
+        }
+
+        .user-studio-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 4px 10px 4px 4px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .user-studio-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        /* ==========================================================================
+           CANVAS EJECUTIVO SPLIT-SCREEN (NUEVA DISTRIBUCIÓN REVOLUCIONARIA)
+           ========================================================================== */
+        .studio-canvas {
+            max-width: 1440px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 2rem 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 440px;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        /* SECCIÓN IZQUIERDA: HERO EXECUTIVE MATRIX */
+        .executive-hero-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.75rem;
+        }
+
+        /* HERO CARD PRINCIPAL: SALUD Y RELEVANCIA */
+        .hero-intelligence-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-float);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-intelligence-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-brand), var(--emerald));
+        }
+
+        .card-header-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .eyebrow-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-brand);
+            background: var(--accent-soft);
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .hero-title-group h1 {
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: var(--text-heading);
+            letter-spacing: -0.03em;
+            margin-top: 0.4rem;
+        }
+
+        .hero-title-group p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* GRID DE MÉTRICAS VITALES INTEGRADAS */
+        .vital-metrics-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            background: var(--bg-card-subtle);
+            border: 1px solid var(--border-hairline);
+            border-radius: 14px;
+            padding: 1.25rem;
+        }
+
+        .vital-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .vital-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .vital-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-heading);
+        }
+
+        .vital-status {
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .vital-status.emerald { color: var(--emerald); }
+        .vital-status.amber { color: var(--amber); }
+
+        /* SECCIÓN GRÁFICA DE RENDIMIENTO DE SEGURIDAD SEMANAL */
+        .chart-section-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chart-header h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .btn-text-action {
+            background: transparent;
+            border: none;
+            color: var(--accent-brand);
+            font-size: 0.84rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-text-action:hover {
+            text-decoration: underline;
+        }
+
+        /* SVG CHART MINIMALISTA */
+        .chart-visual-box {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            border-bottom: 1px solid var(--border-hairline);
+        }
+
+        .chart-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-labels-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-subtle);
+            padding-top: 0.75rem;
+        }
+
+        /* SECCIÓN DERECHA: ASISTENTE AI Y RESUMEN OPERATIVO DOCK */
+        .studio-right-dock {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .dock-assistant-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            box-shadow: var(--shadow-float);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex: 1;
+            min-height: 520px;
+        }
+
+        .dock-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-hairline);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .assistant-badge-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .ai-pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--emerald);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .dock-header h3 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+
+        .dock-messages-feed {
+            flex: 1;
+            padding: 1.5rem;
+            background: var(--bg-card-subtle);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .dock-msg {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            max-width: 90%;
+        }
+
+        .dock-msg.user {
+            margin-left: auto;
+            align-items: flex-end;
+        }
+
+        .dock-bubble {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 14px;
+            padding: 0.85rem 1.1rem;
+            font-size: 0.88rem;
+            color: var(--text-heading);
+            line-height: 1.5;
+            box-shadow: var(--shadow-card);
+        }
+
+        .dock-msg.user .dock-bubble {
+            background: var(--bg-dark-accent);
+            color: #ffffff;
+            border: none;
+        }
+
+        .dock-time {
+            font-size: 0.7rem;
+            color: var(--text-subtle);
+            font-weight: 500;
+        }
+
+        .dock-input-bar {
+            padding: 1rem 1.25rem;
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-hairline);
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .dock-suggestions-scroll {
+            display: flex;
+            gap: 0.4rem;
+            overflow-x: auto;
+        }
+
+        .chip-sug {
+            white-space: nowrap;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-body);
+            background: var(--bg-card-subtle);
+            border: 1px solid var(--border-hairline);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .chip-sug:hover {
+            background: var(--accent-soft);
+            color: var(--accent-brand-dark);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .dock-input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-card-subtle);
+            border: 1px solid var(--border-hairline);
+            border-radius: 12px;
+            padding: 0.4rem 0.6rem;
+        }
+
+        .dock-input-row:focus-within {
+            border-color: var(--accent-brand);
+            background: var(--bg-surface);
+        }
+
+        .dock-input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: var(--font-sans);
+            font-size: 0.88rem;
+            color: var(--text-heading);
+        }
+
+        .btn-dock-send {
+            background: var(--accent-brand);
+            color: #ffffff;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* CARD DE RESUMEN OPERATIVO */
+        .dock-op-summary {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-hairline);
+            border-radius: 20px;
+            padding: 1.25rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .dock-op-summary h4 {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 0.75rem;
+        }
+
+        .op-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-hairline);
+        }
+
+        .op-item:last-child { border-bottom: none; }
+
+        .op-dot {
+            width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0;
+        }
+
+        .op-dot.green { background: var(--emerald); }
+        .op-dot.amber { background: var(--amber); }
+
+        .op-info p {
+            font-size: 0.8rem;
+            color: var(--text-heading);
+            line-height: 1.4;
+        }
+
+        .op-info span {
+            font-size: 0.7rem;
+            color: var(--text-subtle);
+            font-weight: 500;
+        }
+
+        /* FOOTER STUDIO */
+        footer.studio-footer {
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border-hairline);
+            padding: 1.25rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER STUDIO -->
+    <header class="studio-header">
+        <div class="brand-group">
+            <a href="#" class="studio-brand">
+                <div class="brand-mark">A</div>
+                <div class="brand-text-wrapper">
+                    <span class="brand-text-title">AuditorIA AI</span>
+                    <span class="brand-text-subtitle">Executive Studio</span>
+                </div>
+            </a>
+
+            <!-- NAVEGACIÓN SUPERIOR CON ICONOS REALES DE ANGULAR -->
+            <nav class="studio-nav-tabs">
+                <button class="tab-btn active">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+                    Dashboard
+                </button>
+                <button class="tab-btn">
+                    <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+                    Inventario de Dispositivos
+                </button>
+                <button class="tab-btn">
+                    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    Registro de Actividad
+                </button>
+                <button class="tab-btn">
+                    <svg viewBox="0 0 24 24"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+                    Asistente Virtual
+                </button>
+                <button class="tab-btn">
+                    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    Centro de Ayuda
+                </button>
+            </nav>
+        </div>
+
+        <div class="header-controls">
+            <!-- BUSCADOR TIPO PALETA DE COMANDO -->
+            <div class="command-search-trigger">
+                <span>Buscar dispositivos, reportes o alertas...</span>
+                <span class="kbd-badge">⌘K</span>
+            </div>
+
+            <!-- PERFIL DE USUARIO -->
+            <div class="user-studio-profile">
+                <div class="user-studio-avatar">U</div>
+                <span style="font-size:0.83rem; font-weight:700; color:var(--text-heading);">Usuario Auditor</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- STUDIO CANVAS PRINCIPAL -->
+    <div class="studio-canvas">
+
+        <!-- IZQUIERDA: HERO EXECUTIVE MATRIX -->
+        <section class="executive-hero-section">
+
+            <!-- CARD HERO INTELLIGENCE -->
+            <div class="hero-intelligence-card">
+                <div class="card-header-flex">
+                    <span class="eyebrow-tag">Estado de Auditoría</span>
+                    <span style="font-size: 0.8rem; font-weight: 600; color: var(--emerald);">● En línea</span>
+                </div>
+
+                <div class="hero-title-group">
+                    <h1>Resumen Ejecutivo de la Red</h1>
+                    <p>Monitoreo continuo y análisis de postura en tiempo real sobre la infraestructura auditada.</p>
+                </div>
+
+                <!-- METRICAS VITALES DEL ANGULAR APP -->
+                <div class="vital-metrics-row">
+                    <div class="vital-item">
+                        <span class="vital-label">Dispositivos Activos</span>
+                        <span class="vital-value">24</span>
+                        <span class="vital-status emerald">↑ 100% online</span>
+                    </div>
+
+                    <div class="vital-item">
+                        <span class="vital-label">Alertas Activas</span>
+                        <span class="vital-value" style="color:var(--amber);">02</span>
+                        <span class="vital-status amber">● Requieren revisión</span>
+                    </div>
+
+                    <div class="vital-item">
+                        <span class="vital-label">Auditorías Completadas</span>
+                        <span class="vital-value">18</span>
+                        <span class="vital-status emerald">✓ Exitosas</span>
+                    </div>
+
+                    <div class="vital-item">
+                        <span class="vital-label">Dispositivos Inactivos</span>
+                        <span class="vital-value">0</span>
+                        <span class="vital-status emerald">✓ Sin caídas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD GRÁFICA DE RENDIMIENTO DE SEGURIDAD SEMANAL -->
+            <div class="chart-section-card">
+                <div class="chart-header">
+                    <h3>Rendimiento de Seguridad Semanal</h3>
+                    <button class="btn-text-action">Descargar Reporte</button>
+                </div>
+
+                <div class="chart-visual-box">
+                    <svg class="chart-svg" viewBox="0 0 600 180" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="studioGrad" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.2"/>
+                                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <polygon points="0,150 100,120 200,90 300,110 400,60 500,40 600,20 600,180 0,180" fill="url(#studioGrad)"/>
+                        <polyline points="0,150 100,120 200,90 300,110 400,60 500,40 600,20" fill="none" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+                        <circle cx="600" cy="20" r="5" fill="#3b82f6"/>
+                    </svg>
+                </div>
+
+                <div class="chart-labels-row">
+                    <span>Lun</span>
+                    <span>Mar</span>
+                    <span>Mié</span>
+                    <span>Jue</span>
+                    <span>Vie</span>
+                    <span>Sáb</span>
+                    <span>Dom</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- DERECHA: ASISTENTE DOCK Y RESUMEN OPERATIVO -->
+        <aside class="studio-right-dock">
+
+            <!-- CARD DE CHAT ASISTENTE INTEGRADOR -->
+            <div class="dock-assistant-card">
+                <div class="dock-header">
+                    <div class="assistant-badge-title">
+                        <div class="ai-pulse-dot"></div>
+                        <h3>Asistente de Seguridad Integrado</h3>
+                    </div>
+                </div>
+
+                <!-- MESSAGES -->
+                <div class="dock-messages-feed">
+                    <div class="dock-msg">
+                        <div class="dock-time">AuditorIA AI · 09:22 AM</div>
+                        <div class="dock-bubble">
+                            Hola, soy tu Asistente de Auditoría. Puedo ayudarte a analizar el estado de los dispositivos de tu red, revisar el inventario o consultar alertas recientes.
+                        </div>
+                    </div>
+
+                    <div class="dock-msg user">
+                        <div class="dock-time">Usuario · 09:23 AM</div>
+                        <div class="dock-bubble">
+                            ¿Cómo puedo consultar los dispositivos en alerta?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INPUT & SUGERENCIAS DE ANGULAR -->
+                <div class="dock-input-bar">
+                    <div class="dock-suggestions-scroll">
+                        <span class="chip-sug">¿Cómo revisar el inventario de dispositivos?</span>
+                        <span class="chip-sug">¿Qué significan las alertas de seguridad?</span>
+                        <span class="chip-sug">¿Cómo exportar un reporte de auditoría?</span>
+                    </div>
+
+                    <div class="dock-input-row">
+                        <input type="text" class="dock-input-field" placeholder="Escribe tu consulta o activa el Control por Voz...">
+                        <button class="btn-dock-send" title="Enviar">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RESUMEN OPERATIVO CARD -->
+            <div class="dock-op-summary">
+                <h4>Resumen Operativo</h4>
+
+                <div class="op-item">
+                    <div class="op-dot green"></div>
+                    <div class="op-info">
+                        <p>Escaneo de dispositivos completado con éxito.</p>
+                        <span>Hace 10 min</span>
+                    </div>
+                </div>
+
+                <div class="op-item">
+                    <div class="op-dot amber"></div>
+                    <div class="op-info">
+                        <p>Alerta de configuración pendiente en dispositivo WS-02.</p>
+                        <span>Hace 25 min</span>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <!-- FOOTER STUDIO -->
+    <footer class="studio-footer">
+        <div>AuditorIA AI — Platform Executive Studio v3.0</div>
+        <div>Sistema de Auditoría y Cumplimiento</div>
+    </footer>
+
+</body>
+</html>

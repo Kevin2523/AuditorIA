@@ -16,6 +16,7 @@ export class Inventory {
   readonly selectedStatus = signal<'Todos' | 'Protegido' | 'Riesgo' | 'Offline'>('Todos');
   readonly filtersOpen = signal(false);
   readonly expandedDeviceId = signal<number | null>(null);
+  readonly viewMode = signal<'grid' | 'table'>('grid');
   readonly statuses = ['Todos', 'Protegido', 'Riesgo', 'Offline'] as const;
 
   readonly devices = computed(() => {
@@ -50,6 +51,10 @@ export class Inventory {
 
   toggleFilters() {
     this.filtersOpen.update((open) => !open);
+  }
+
+  setViewMode(mode: 'grid' | 'table') {
+    this.viewMode.set(mode);
   }
 
   setStatus(status: (typeof this.statuses)[number]) {

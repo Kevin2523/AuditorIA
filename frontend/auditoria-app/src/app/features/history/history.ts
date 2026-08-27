@@ -21,7 +21,7 @@ export class History {
 
   downloadCertificate(log: ActivityLog) {
     const content = [
-      'AuditorIA AI - Certificado de Resolucion',
+      'AuditorIA - Certificado de Resolucion',
       `ID de ejecucion: ${log.id}`,
       `Suceso: ${log.tipo_suceso}`,
       `Dispositivo: ${log.dispositivo_afectado}`,

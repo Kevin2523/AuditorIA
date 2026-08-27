@@ -1,99 +1,177 @@
-<div class="space-y-6">
-  <div class="flex items-center justify-end gap-3">
-    <span *ngIf="fleet.isOffline()" class="text-[12px] text-[#92400E] bg-[#FEF3C7] border border-[#FDE68A] rounded-full px-2.5 py-1">Datos de dispositivos no disponibles</span>
-    <span *ngIf="activity.isOffline()" class="text-[12px] text-[#334155] bg-[#E2E8F0] border border-[#CBD5E1] rounded-full px-2.5 py-1">Actividad no disponible</span>
-    <span *ngIf="alerts.isOffline()" class="text-[12px] text-[#991B1B] bg-[#FEF2F2] border border-[#FECACA] rounded-full px-2.5 py-1">Alertas no disponibles</span>
+<div class="max-w-[1440px] mx-auto space-y-7">
+
+  <!-- Status Bar Offline Warnings -->
+  <div class="flex flex-wrap items-center justify-end gap-3" *ngIf="fleet.isOffline() || activity.isOffline() || alerts.isOffline()">
+    <span *ngIf="fleet.isOffline()" class="text-[12px] font-bold text-[#92400E] bg-[#FEF3C7] border border-[#FDE68A] rounded-full px-3.5 py-1 shadow-2xs">Datos de dispositivos no disponibles</span>
+    <span *ngIf="activity.isOffline()" class="text-[12px] font-bold text-[#334155] bg-[#E2E8F0] border border-[#CBD5E1] rounded-full px-3.5 py-1 shadow-2xs">Actividad no disponible</span>
+    <span *ngIf="alerts.isOffline()" class="text-[12px] font-bold text-[#991B1B] bg-[#FEF2F2] border border-[#FECACA] rounded-full px-3.5 py-1 shadow-2xs">Alertas no disponibles</span>
   </div>
 
+  <!-- Componente de Control Auditoria -->
   @if (auth.role() !== 'viewer') {
     <app-auditoria></app-auditoria>
   }
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-    <div *ngFor="let m of metrics()" class="saas-card p-6">
-      <div class="flex items-start justify-between mb-4">
-        <div class="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-             [class]="m.color === 'primary' ? 'bg-primary-50 text-primary-600' :
-                      m.color === 'success' ? 'bg-[#ECFDF5] text-[#10B981]' :
-                      m.color === 'warning' ? 'bg-[#FFFBEB] text-[#F59E0B]' :
-                      'bg-[#EFF6FF] text-[#3B82F6]'">
-          <svg *ngIf="m.icon==='shield-check'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
-          <svg *ngIf="m.icon==='laptop'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
-          <svg *ngIf="m.icon==='wrench'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.58 6.58a2 2 0 01-3-3l6.58-6.58a6 6 0 017.93-7.93l-3.76 3.76z"/></svg>
-          <svg *ngIf="m.icon==='calendar'" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+  <!-- ============================================================
+       HERO COMMAND BANNER (INNOVADOR EXECUTIVE STUDIO)
+  ============================================================ -->
+  <div class="bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0F172A] text-white rounded-3xl p-7 lg:p-9 shadow-xl relative overflow-hidden">
+    <!-- Glow Background Accents -->
+    <div class="absolute -top-24 -right-24 w-80 h-80 bg-[#059669]/20 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-[#10B981]/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      
+      <!-- Title & Live Status Pulse -->
+      <div class="space-y-2 max-w-2xl">
+        <div class="flex items-center gap-3">
+          <span class="inline-flex items-center gap-2 bg-[#059669]/20 border border-[#059669]/40 text-[#34D399] text-[11px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-[#34D399] animate-pulse"></span>
+            Centro de Mando Activo
+          </span>
+          <span class="text-[12px] font-semibold text-slate-400">UTP Executive Suite</span>
         </div>
 
-        <span *ngIf="m.trend" class="text-[12px] font-medium font-body bg-surface px-2.5 py-1 rounded-md"
-              [class.text-[#10B981]]="m.up === true" [class.bg-[#ECFDF5]]="m.up === true"
-              [class.text-[#64748B]]="m.up === null || m.up === false"
-              [class.bg-[#F1F5F9]]="m.up === null || m.up === false">
-          {{m.trend}}
-        </span>
+        <h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
+          Postura Global de Seguridad & Telemetría
+        </h1>
+        <p class="text-[14px] text-slate-300 font-normal leading-relaxed">
+          Supervisión autónoma en tiempo real, detección de amenazas e inteligencia operativa sobre todos los nodos conectados.
+        </p>
       </div>
-      <div>
-        <h3 class="text-3xl font-display font-extrabold text-[#0F172A] tracking-tight mb-1">{{m.value}}</h3>
-        <p class="text-[13px] font-body text-[#64748B]">{{m.label}}</p>
+
+      <!-- Action Button -->
+      @if (auth.role() !== 'viewer') {
+        <div class="shrink-0">
+          <button
+            (click)="downloadReport()"
+            class="inline-flex items-center gap-2.5 bg-[#059669] hover:bg-[#047857] text-white font-extrabold text-[13px] px-6 py-3.5 rounded-2xl shadow-lg shadow-[#059669]/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar Reporte Ejecutivo (CSV)
+          </button>
+        </div>
+      }
+    </div>
+
+    <!-- ============================================================
+         MATRIZ DE MÉTRICAS INNOVADORA (INTEGRATED CARDS)
+    ============================================================ -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-8 pt-7 border-t border-slate-700/60">
+      
+      <div *ngFor="let m of metrics()" class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-5 hover:bg-white/10 transition-all duration-200 group">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-white/10 text-[#34D399] group-hover:scale-110 transition-transform">
+            <svg *ngIf="m.icon==='shield-check'" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            <svg *ngIf="m.icon==='laptop'" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+            <svg *ngIf="m.icon==='wrench'" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.58 6.58a2 2 0 01-3-3l6.58-6.58a6 6 0 017.93-7.93l-3.76 3.76z"/></svg>
+            <svg *ngIf="m.icon==='calendar'" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+
+          <span *ngIf="m.trend" class="text-[11px] font-extrabold px-2.5 py-1 rounded-full"
+                [class.text-[#34D399]]="m.up === true" [class.bg-[#34D399]/10]="m.up === true"
+                [class.text-amber-300]="m.up === false || m.up === null" [class.bg-amber-400/10]="m.up === false || m.up === null">
+            {{m.trend}}
+          </span>
+        </div>
+
+        <div>
+          <span class="text-3xl font-extrabold text-white tracking-tight leading-none block mb-1">{{m.value}}</span>
+          <span class="text-[12px] font-semibold text-slate-300 block">{{m.label}}</span>
+        </div>
       </div>
+
     </div>
   </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <div class="lg:col-span-2 saas-card p-6">
+  <!-- ============================================================
+       CANVAS SPLIT: RENDIMIENTO GRÁFICO + STREAM DE ACTIVIDAD
+  ============================================================ -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-7">
+    
+    <!-- RENDIMIENTO SEMANAL CON INTERFAZ MODERNA -->
+    <div class="lg:col-span-2 bg-white border border-[#E2E8F0] rounded-3xl p-7 shadow-sm flex flex-col justify-between">
       <div class="flex items-center justify-between mb-6">
-        <h3 class="font-display text-base font-bold text-[#0F172A]">Rendimiento de Seguridad Semanal</h3>
+        <div>
+          <span class="text-[11px] font-extrabold tracking-wider text-[#059669] uppercase">Tendencias</span>
+          <h3 class="font-display text-xl font-extrabold text-[#0F172A] tracking-tight">Rendimiento de Seguridad Semanal</h3>
+          <p class="text-[12px] text-[#64748B] mt-0.5">Tasa de resolución de eventos e incidentes en los últimos 7 días.</p>
+        </div>
+        
         @if (auth.role() !== 'viewer') {
-          <button (click)="downloadReport()" class="text-[13px] text-primary-600 font-semibold hover:underline cursor-pointer">Descargar Reporte</button>
+          <button (click)="downloadReport()" class="inline-flex items-center gap-1.5 text-[12px] text-[#059669] font-extrabold bg-[#ECFDF5] hover:bg-[#D1FAE5] px-3.5 py-2 rounded-xl transition-colors cursor-pointer">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar Datos
+          </button>
         }
       </div>
 
-      <div class="w-full h-64 border-b border-[#E2E8F0] relative flex items-end justify-between px-2 pb-6">
-        <div class="absolute inset-x-0 bottom-6 border-b border-dashed border-[#E2E8F0] w-full"></div>
+      <!-- VISUALIZADOR DE GRÁFICO SEMANAL SVG CON DEGRADADO ESTRUCTURADO -->
+      <div class="w-full h-72 border-b border-[#E2E8F0] relative flex items-end justify-between px-3 pb-7">
+        <div class="absolute inset-x-0 bottom-7 border-b border-dashed border-[#E2E8F0] w-full"></div>
         <div class="absolute inset-x-0 bottom-[40%] border-b border-dashed border-[#E2E8F0] w-full"></div>
         <div class="absolute inset-x-0 top-[20%] border-b border-dashed border-[#E2E8F0] w-full"></div>
 
-        <svg *ngIf="hasWeeklySecurityData()" class="absolute inset-0 w-full h-[85%] pb-6 overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 200">
+        <svg *ngIf="hasWeeklySecurityData()" class="absolute inset-0 w-full h-[85%] pb-7 overflow-visible" preserveAspectRatio="none" viewBox="0 0 1000 200">
           <defs>
-            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#2563EB" stop-opacity="0.15" />
-              <stop offset="100%" stop-color="#2563EB" stop-opacity="0" />
+            <linearGradient id="chartGradientStudio" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#059669" stop-opacity="0.25" />
+              <stop offset="100%" stop-color="#059669" stop-opacity="0" />
             </linearGradient>
           </defs>
-          <polygon [attr.points]="weeklyAreaPoints()" fill="url(#chartGradient)" />
-          <polyline fill="none" stroke="#2563EB" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" [attr.points]="weeklyLinePoints()"/>
-          <circle *ngFor="let point of weeklySecurityWithData()" [attr.cx]="point.x" [attr.cy]="point.y" r="5" fill="#fff" stroke="#2563EB" stroke-width="3" />
+          <polygon [attr.points]="weeklyAreaPoints()" fill="url(#chartGradientStudio)" />
+          <polyline fill="none" stroke="#059669" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" [attr.points]="weeklyLinePoints()"/>
+          <circle *ngFor="let point of weeklySecurityWithData()" [attr.cx]="point.x" [attr.cy]="point.y" r="6" fill="#ffffff" stroke="#059669" stroke-width="3.5" />
         </svg>
 
         <div *ngIf="!hasWeeklySecurityData()" class="absolute inset-0 flex items-center justify-center pb-8">
-          <p class="text-[13px] text-[#94A3B8]">Sin actividad registrada durante los ultimos 7 dias.</p>
+          <div class="text-center space-y-1">
+            <p class="text-[14px] font-bold text-[#64748B]">Sin registros en los últimos 7 días</p>
+            <p class="text-[12px] text-[#94A3B8]">La actividad se trazará automáticamente al ejecutar escaneos.</p>
+          </div>
         </div>
 
-        <div class="absolute bottom-0 inset-x-0 flex justify-between text-[11px] font-semibold text-[#94A3B8] px-2">
+        <div class="absolute bottom-0 inset-x-0 flex justify-between text-[11px] font-extrabold text-[#94A3B8] uppercase tracking-wider px-3">
           <span *ngFor="let point of weeklySecurity()">{{point.label}}</span>
         </div>
       </div>
     </div>
 
-    <div class="saas-card p-6 flex flex-col">
-      <div class="flex items-center justify-between mb-6">
-        <h3 class="font-display text-base font-bold text-[#0F172A]">Resumen Operativo</h3>
-      </div>
-      <div class="flex-1 space-y-4">
-        <div *ngFor="let a of recentIssues()" class="flex gap-4">
-          <div class="mt-1">
-            <div class="w-2.5 h-2.5 rounded-full" [class]="a.status === 'success' ? 'bg-[#10B981]' : 'bg-[#F59E0B]'"></div>
-          </div>
+    <!-- STREAM DE RESUMEN OPERATIVO -->
+    <div class="bg-white border border-[#E2E8F0] rounded-3xl p-7 shadow-sm flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between mb-6">
           <div>
-            <p class="text-[13px] text-[#334155] leading-snug mb-1">{{a.text}}</p>
-            <p class="text-[11px] text-[#94A3B8] font-medium">{{a.time}}</p>
+            <span class="text-[11px] font-extrabold tracking-wider text-[#059669] uppercase">Actividad en Vivo</span>
+            <h3 class="font-display text-xl font-extrabold text-[#0F172A] tracking-tight">Resumen Operativo</h3>
           </div>
+          <span class="w-3 h-3 rounded-full bg-[#10B981] animate-ping" title="Sincronización activa"></span>
         </div>
-        <p *ngIf="recentIssues().length === 0" class="text-[13px] text-[#94A3B8]">Sin actividad reciente todavia.</p>
+
+        <div class="space-y-4">
+          <div *ngFor="let a of recentIssues()" class="flex items-start gap-3.5 p-3 rounded-2xl bg-[#F8FAFC] border border-[#F1F5F9] transition-all hover:bg-white hover:border-[#E2E8F0]">
+            <div class="mt-1 shrink-0">
+              <div class="w-3 h-3 rounded-full" [class]="a.status === 'success' ? 'bg-[#10B981] shadow-xs shadow-[#10B981]' : 'bg-[#F59E0B] shadow-xs shadow-[#F59E0B]'"></div>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-[13px] text-[#0F172A] font-bold leading-snug truncate">{{a.text}}</p>
+              <p class="text-[11px] text-[#94A3B8] font-semibold mt-0.5">{{a.time}}</p>
+            </div>
+          </div>
+
+          <p *ngIf="recentIssues().length === 0" class="text-[13px] font-semibold text-[#94A3B8] text-center py-6">
+            Sin eventos registrados recientemente.
+          </p>
+        </div>
       </div>
+
       @if (auth.role() !== 'viewer') {
-        <button routerLink="/history" class="mt-4 w-full py-2.5 bg-surface text-[#475569] text-[13px] font-semibold rounded-lg hover:bg-[#E2E8F0] transition-colors border border-border">
-          Ver Registro Completo
-        </button>
+        <a routerLink="/history" class="mt-6 w-full py-3 bg-[#F8FAFC] hover:bg-[#ECFDF5] text-[#0F172A] hover:text-[#047857] text-[13px] font-extrabold rounded-2xl transition-all border border-[#E2E8F0] hover:border-[#A7F3D0] text-center block">
+          Ver Registro Histórico Completo
+        </a>
       }
     </div>
+
   </div>
+
 </div>

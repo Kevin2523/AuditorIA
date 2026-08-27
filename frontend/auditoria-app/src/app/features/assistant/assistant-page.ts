@@ -5,12 +5,13 @@ import { Assistant } from './assistant';
   selector: 'app-assistant-page',
   standalone: true,
   imports: [Assistant],
-  template: '<app-assistant class="block h-full"></app-assistant>',
+  template: '<app-assistant class="block h-full w-full"></app-assistant>',
   styles: [`
     :host {
       display: block;
-      height: calc(100vh - 72px - 64px - 60px);
-      min-height: 620px;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
     }
   `]
 })
