@@ -1,0 +1,169 @@
+{
+  "name": "Agente Mixto Batch",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ejecutar-fleet-batch",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "a0000001-0000-0000-0000-000000000001",
+      "name": "Webhook Batch",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [-1200, 0],
+      "webhookId": "batch-fleet-webhook-id"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/login",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"email\": \"kjmg2325@gmail.com\",\n  \"password\": \"@Stayhumble521\"\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "id": "a0000001-0000-0000-0000-000000000002",
+      "name": "GET TOKEN",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-1000, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/hosts",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "status", "value": "online" },
+            { "name": "per_page", "value": "1000" }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }
+          ]
+        },
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000003",
+      "name": "Get Hosts",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-800, 0]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.queries",
+        "options": {}
+      },
+      "id": "a0000001-0000-0000-0000-000000000004",
+      "name": "Split Queries",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [-600, 0]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000005",
+      "name": "Update Query",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-400, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1/run",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query_ids\": [1],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000006",
+      "name": "Run Report",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-200, 0]
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "mergeByFields": {},
+        "combinationMode": "multiplex",
+        "options": {}
+      },
+      "id": "a0000001-0000-0000-0000-000000000007",
+      "name": "Aggregate Results",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ success: true, type: 'batch_queries', results: $json }) }}",
+        "options": {}
+      },
+      "id": "a0000001-0000-0000-0000-000000000008",
+      "name": "Respuesta Batch",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [200, 0]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook Batch": {
+      "main": [[{ "node": "GET TOKEN", "type": "main", "index": 0 }]]
+    },
+    "GET TOKEN": {
+      "main": [[{ "node": "Get Hosts", "type": "main", "index": 0 }]]
+    },
+    "Get Hosts": {
+      "main": [[{ "node": "Split Queries", "type": "main", "index": 0 }]]
+    },
+    "Split Queries": {
+      "main": [[{ "node": "Update Query", "type": "main", "index": 0 }]]
+    },
+    "Update Query": {
+      "main": [[{ "node": "Run Report", "type": "main", "index": 0 }]]
+    },
+    "Run Report": {
+      "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]]
+    },
+    "Aggregate Results": {
+      "main": [[{ "node": "Respuesta Batch", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "tags": []
+}
