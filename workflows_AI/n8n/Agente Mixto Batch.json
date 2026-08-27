@@ -12,7 +12,7 @@
       "name": "Webhook Batch",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
-      "position": [-1200, 0],
+      "position": [-1400, 0],
       "webhookId": "batch-fleet-webhook-id"
     },
     {
@@ -22,15 +22,13 @@
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "{\n  \"email\": \"kjmg2325@gmail.com\",\n  \"password\": \"@Stayhumble521\"\n}",
-        "options": {
-          "allowUnauthorizedCerts": true
-        }
+        "options": { "allowUnauthorizedCerts": true }
       },
       "id": "a0000001-0000-0000-0000-000000000002",
       "name": "GET TOKEN",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-1000, 0]
+      "position": [-1200, 0]
     },
     {
       "parameters": {
@@ -55,7 +53,7 @@
       "name": "Get Hosts",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-800, 0]
+      "position": [-1000, 0]
     },
     {
       "parameters": {
@@ -66,49 +64,177 @@
       "name": "Split Queries",
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
-      "position": [-600, 0]
+      "position": [-800, 0]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "0", "operator": { "type": "number", "operation": "equals" } }],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "1", "operator": { "type": "number", "operation": "equals" } }],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "2", "operator": { "type": "number", "operation": "equals" } }],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
+                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "3", "operator": { "type": "number", "operation": "equals" } }],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [-600, 0],
+      "id": "a0000001-0000-0000-0000-000000000005",
+      "name": "Route by Index"
     },
     {
       "parameters": {
         "method": "PATCH",
         "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1",
         "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
         "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
         "options": { "allowUnauthorizedCerts": true }
       },
-      "id": "a0000001-0000-0000-0000-000000000005",
-      "name": "Update Query",
+      "id": "a0000001-0000-0000-0000-000000000010",
+      "name": "Update Report 1",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-400, 0]
+      "position": [-300, -180]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/7",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000011",
+      "name": "Update Report 2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-300, -60]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/8",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000012",
+      "name": "Update Report 3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-300, 60]
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/9",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000013",
+      "name": "Update Report 4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-300, 180]
     },
     {
       "parameters": {
         "method": "POST",
         "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1/run",
         "sendHeaders": true,
-        "headerParameters": {
-          "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }
-          ]
-        },
-        "sendBody": true,
-        "specifyBody": "json",
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
         "jsonBody": "={\n  \"query_ids\": [1],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
         "options": { "allowUnauthorizedCerts": true }
       },
-      "id": "a0000001-0000-0000-0000-000000000006",
-      "name": "Run Report",
+      "id": "a0000001-0000-0000-0000-000000000020",
+      "name": "Run Report 1",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-200, 0]
+      "position": [-100, -180]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/7/run",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
+        "jsonBody": "={\n  \"query_ids\": [7],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000021",
+      "name": "Run Report 2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-100, -60]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/8/run",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
+        "jsonBody": "={\n  \"query_ids\": [8],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000022",
+      "name": "Run Report 3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-100, 60]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/9/run",
+        "sendHeaders": true,
+        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
+        "sendBody": true, "specifyBody": "json",
+        "jsonBody": "={\n  \"query_ids\": [9],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
+        "options": { "allowUnauthorizedCerts": true }
+      },
+      "id": "a0000001-0000-0000-0000-000000000023",
+      "name": "Run Report 4",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [-100, 180]
     },
     {
       "parameters": {
@@ -117,11 +243,11 @@
         "combinationMode": "multiplex",
         "options": {}
       },
-      "id": "a0000001-0000-0000-0000-000000000007",
+      "id": "a0000001-0000-0000-0000-000000000030",
       "name": "Aggregate Results",
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
-      "position": [0, 0]
+      "position": [200, 0]
     },
     {
       "parameters": {
@@ -129,41 +255,37 @@
         "responseBody": "={{ JSON.stringify({ success: true, type: 'batch_queries', results: $json }) }}",
         "options": {}
       },
-      "id": "a0000001-0000-0000-0000-000000000008",
+      "id": "a0000001-0000-0000-0000-000000000031",
       "name": "Respuesta Batch",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
-      "position": [200, 0]
+      "position": [400, 0]
     }
   ],
   "pinData": {},
   "connections": {
-    "Webhook Batch": {
-      "main": [[{ "node": "GET TOKEN", "type": "main", "index": 0 }]]
+    "Webhook Batch": { "main": [[{ "node": "GET TOKEN", "type": "main", "index": 0 }]] },
+    "GET TOKEN": { "main": [[{ "node": "Get Hosts", "type": "main", "index": 0 }]] },
+    "Get Hosts": { "main": [[{ "node": "Split Queries", "type": "main", "index": 0 }]] },
+    "Split Queries": { "main": [[{ "node": "Route by Index", "type": "main", "index": 0 }]] },
+    "Route by Index": {
+      "main": [
+        [{ "node": "Update Report 1", "type": "main", "index": 0 }],
+        [{ "node": "Update Report 2", "type": "main", "index": 0 }],
+        [{ "node": "Update Report 3", "type": "main", "index": 0 }],
+        [{ "node": "Update Report 4", "type": "main", "index": 0 }]
+      ]
     },
-    "GET TOKEN": {
-      "main": [[{ "node": "Get Hosts", "type": "main", "index": 0 }]]
-    },
-    "Get Hosts": {
-      "main": [[{ "node": "Split Queries", "type": "main", "index": 0 }]]
-    },
-    "Split Queries": {
-      "main": [[{ "node": "Update Query", "type": "main", "index": 0 }]]
-    },
-    "Update Query": {
-      "main": [[{ "node": "Run Report", "type": "main", "index": 0 }]]
-    },
-    "Run Report": {
-      "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]]
-    },
-    "Aggregate Results": {
-      "main": [[{ "node": "Respuesta Batch", "type": "main", "index": 0 }]]
-    }
+    "Update Report 1": { "main": [[{ "node": "Run Report 1", "type": "main", "index": 0 }]] },
+    "Update Report 2": { "main": [[{ "node": "Run Report 2", "type": "main", "index": 0 }]] },
+    "Update Report 3": { "main": [[{ "node": "Run Report 3", "type": "main", "index": 0 }]] },
+    "Update Report 4": { "main": [[{ "node": "Run Report 4", "type": "main", "index": 0 }]] },
+    "Run Report 1": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] },
+    "Run Report 2": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] },
+    "Run Report 3": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] },
+    "Run Report 4": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] }
   },
   "active": false,
-  "settings": {
-    "executionOrder": "v1",
-    "binaryMode": "separate"
-  },
+  "settings": { "executionOrder": "v1", "binaryMode": "separate" },
   "tags": []
 }
