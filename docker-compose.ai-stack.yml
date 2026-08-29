@@ -71,6 +71,7 @@ services:
       NODE_TLS_REJECT_UNAUTHORIZED: 0
       OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
       OPENAI_API_BASE: https://opencode.ai/zen/go/v1
+      TOOL_CALLING_TIMEOUT: 300000
       # Dev local: permite que las tools llamen servicios internos del compose,
       # por ejemplo http://n8n:5678/webhook/...
       HTTP_SECURITY_CHECK: ${FLOWISE_HTTP_SECURITY_CHECK}
@@ -93,6 +94,7 @@ services:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=false
       - WEBHOOK_URL=${N8N_PUBLIC_URL}
       - N8N_EDITOR_BASE_URL=${N8N_PUBLIC_URL}
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
     volumes:
       - n8n_data:/home/node/.n8n
 

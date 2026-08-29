@@ -12,7 +12,10 @@
       "name": "Webhook Batch",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
-      "position": [-1400, 0],
+      "position": [
+        -1400,
+        0
+      ],
       "webhookId": "batch-fleet-webhook-id"
     },
     {
@@ -22,232 +25,126 @@
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "{\n  \"email\": \"kjmg2325@gmail.com\",\n  \"password\": \"@Stayhumble521\"\n}",
-        "options": { "allowUnauthorizedCerts": true }
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
       },
       "id": "a0000001-0000-0000-0000-000000000002",
       "name": "GET TOKEN",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-1200, 0]
+      "position": [
+        -1200,
+        0
+      ]
     },
     {
       "parameters": {
-        "method": "POST",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fleet_token",
+              "name": "fleet_token",
+              "value": "={{ $('GET TOKEN').item.json.token }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "a0000001-0000-0000-0000-000000000099",
+      "name": "Store Token",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1100,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "GET",
         "url": "https://host.docker.internal:1337/api/v1/fleet/hosts",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
-            { "name": "status", "value": "online" },
-            { "name": "per_page", "value": "1000" }
+            {
+              "name": "status",
+              "value": "online"
+            },
+            {
+              "name": "per_page",
+              "value": "1000"
+            }
           ]
         },
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
-            { "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Store Token').item.json.fleet_token }}"
+            }
           ]
         },
-        "options": { "allowUnauthorizedCerts": true }
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
       },
       "id": "a0000001-0000-0000-0000-000000000003",
       "name": "Get Hosts",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
-      "position": [-1000, 0]
+      "position": [
+        -1000,
+        0
+      ]
     },
     {
       "parameters": {
-        "fieldToSplitOut": "body.queries",
-        "options": {}
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Get queries from original webhook body\nconst queries = $('Webhook Batch').first().json.body.queries;\nconst descriptions = $('Webhook Batch').first().json.body.descriptions || [];\nconst hostIds = $input.first().json.hosts.map(h => h.id);\n\n// Limit to 4 queries max\nconst limitedQueries = queries.slice(0, 4);\nconst limitedDescs = descriptions.slice(0, 4);\n\nreturn limitedQueries.map((query, index) => ({\n  json: {\n    query: query,\n    index: index,\n    description: limitedDescs[index] || 'Query ' + (index + 1),\n    hostIds: hostIds\n  }\n}));"
       },
-      "id": "a0000001-0000-0000-0000-000000000004",
-      "name": "Split Queries",
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [-800, 0]
+      "id": "a0000001-0000-0000-0000-000000000097",
+      "name": "Prepare Queries",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -800,
+        0
+      ]
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
-                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "0", "operator": { "type": "number", "operation": "equals" } }],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
-                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "1", "operator": { "type": "number", "operation": "equals" } }],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
-                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "2", "operator": { "type": "number", "operation": "equals" } }],
-                "combinator": "and"
-              }
-            },
-            {
-              "conditions": {
-                "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict", "version": 3 },
-                "conditions": [{ "leftValue": "={{ $json.itemIndex }}", "rightValue": "3", "operator": { "type": "number", "operation": "equals" } }],
-                "combinator": "and"
-              }
-            }
-          ]
+        "mode": "runOnceForAllItems",
+        "jsCode": "const token = $('Store Token').first().json.fleet_token;\nconst hostIds = $('Get Hosts').first().json.hosts.map(h => h.id);\nconst items = $input.all();\nconst reportIds = [1, 7, 8, 9];\n\nconst promises = items.map((item, index) => {\n    const reportId = reportIds[index % reportIds.length];\n    const query = item.json.query;\n    const desc = item.json.description || 'Query ' + (index + 1);\n    \n    return (async () => {\n        await this.helpers.httpRequest({\n            method: 'PATCH',\n            url: `https://host.docker.internal:1337/api/v1/fleet/reports/${reportId}`,\n            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },\n            body: { query: query },\n            json: true\n        });\n        \n        const result = await this.helpers.httpRequest({\n            method: 'POST',\n            url: `https://host.docker.internal:1337/api/v1/fleet/reports/${reportId}/run`,\n            headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },\n            body: { query_ids: [reportId], host_ids: hostIds },\n            json: true\n        });\n        \n        return { description: desc, query: query, result: result };\n    })();\n});\n\nconst results = await Promise.all(promises);\nreturn results;"
+      },
+      "id": "a0000001-0000-0000-0000-000000000050",
+      "name": "Run All Parallel",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "results",
+        "include": "allFieldsExcept",
+        "fieldsToInclude": {
+          "fieldNames": []
         },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [-600, 0],
-      "id": "a0000001-0000-0000-0000-000000000005",
-      "name": "Route by Index"
-    },
-    {
-      "parameters": {
-        "method": "PATCH",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000010",
-      "name": "Update Report 1",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-300, -180]
-    },
-    {
-      "parameters": {
-        "method": "PATCH",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/7",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000011",
-      "name": "Update Report 2",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-300, -60]
-    },
-    {
-      "parameters": {
-        "method": "PATCH",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/8",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000012",
-      "name": "Update Report 3",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-300, 60]
-    },
-    {
-      "parameters": {
-        "method": "PATCH",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/9",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query\": \"{{ $json }}\"\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000013",
-      "name": "Update Report 4",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-300, 180]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1/run",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query_ids\": [1],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000020",
-      "name": "Run Report 1",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-100, -180]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/7/run",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query_ids\": [7],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000021",
-      "name": "Run Report 2",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-100, -60]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/8/run",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query_ids\": [8],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000022",
-      "name": "Run Report 3",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-100, 60]
-    },
-    {
-      "parameters": {
-        "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/9/run",
-        "sendHeaders": true,
-        "headerParameters": { "parameters": [{ "name": "Authorization", "value": "=Bearer {{ $('GET TOKEN').item.json.token }}" }] },
-        "sendBody": true, "specifyBody": "json",
-        "jsonBody": "={\n  \"query_ids\": [9],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
-        "options": { "allowUnauthorizedCerts": true }
-      },
-      "id": "a0000001-0000-0000-0000-000000000023",
-      "name": "Run Report 4",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.3,
-      "position": [-100, 180]
-    },
-    {
-      "parameters": {
-        "mode": "combine",
-        "mergeByFields": {},
-        "combinationMode": "multiplex",
         "options": {}
       },
       "id": "a0000001-0000-0000-0000-000000000030",
       "name": "Aggregate Results",
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
-      "position": [200, 0]
+      "position": [
+        200,
+        0
+      ]
     },
     {
       "parameters": {
@@ -259,33 +156,118 @@
       "name": "Respuesta Batch",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
-      "position": [400, 0]
+      "position": [
+        400,
+        0
+      ]
     }
   ],
   "pinData": {},
   "connections": {
-    "Webhook Batch": { "main": [[{ "node": "GET TOKEN", "type": "main", "index": 0 }]] },
-    "GET TOKEN": { "main": [[{ "node": "Get Hosts", "type": "main", "index": 0 }]] },
-    "Get Hosts": { "main": [[{ "node": "Split Queries", "type": "main", "index": 0 }]] },
-    "Split Queries": { "main": [[{ "node": "Route by Index", "type": "main", "index": 0 }]] },
-    "Route by Index": {
+    "Webhook Batch": {
       "main": [
-        [{ "node": "Update Report 1", "type": "main", "index": 0 }],
-        [{ "node": "Update Report 2", "type": "main", "index": 0 }],
-        [{ "node": "Update Report 3", "type": "main", "index": 0 }],
-        [{ "node": "Update Report 4", "type": "main", "index": 0 }]
+        [
+          {
+            "node": "GET TOKEN",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
-    "Update Report 1": { "main": [[{ "node": "Run Report 1", "type": "main", "index": 0 }]] },
-    "Update Report 2": { "main": [[{ "node": "Run Report 2", "type": "main", "index": 0 }]] },
-    "Update Report 3": { "main": [[{ "node": "Run Report 3", "type": "main", "index": 0 }]] },
-    "Update Report 4": { "main": [[{ "node": "Run Report 4", "type": "main", "index": 0 }]] },
-    "Run Report 1": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] },
-    "Run Report 2": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] },
-    "Run Report 3": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] },
-    "Run Report 4": { "main": [[{ "node": "Aggregate Results", "type": "main", "index": 0 }]] }
+    "GET TOKEN": {
+      "main": [
+        [
+          {
+            "node": "Store Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Hosts": {
+      "main": [
+        [
+          {
+            "node": "Prepare Queries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Queries": {
+      "main": [
+        [
+          {
+            "node": "Route by Index",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate Results": {
+      "main": [
+        [
+          {
+            "node": "Respuesta Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Token": {
+      "main": [
+        [
+          {
+            "node": "Get Hosts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Store Queries": {
+      "main": [
+        [
+          {
+            "node": "GET TOKEN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Data": {
+      "main": [
+        [
+          {
+            "node": "Split Queries",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Queries": {
+      "main": [
+        [
+          {
+            "node": "Run All Parallel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
   },
   "active": false,
-  "settings": { "executionOrder": "v1", "binaryMode": "separate" },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
   "tags": []
 }

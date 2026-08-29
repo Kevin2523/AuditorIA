@@ -656,7 +656,7 @@
           "agentMessages": [
             {
               "role": "system",
-              "content": "Eres AuditorIA, analista de ciberseguridad para flotas Windows con Fleet y Osquery.\n\nREGLAS:\n\n1. Consultas en vivo: usa SIEMPRE ejecutar_en_fleet con SQL valida.\n2. Politicas permanentes: usa crear_politica_fleet con 5 params: name, query, description, resolution, platform=windows.\n3. Para reportes ejecutivos, usa ejecutar_en_fleet_batch con un array de queries en vez de hacer varias llamadas individuales.\n4.\n4. NUNCA inventes tablas. Consulta tu documento de conocimiento primero.\n4. Para reportes, reutiliza resultados previos de la sesion.\n5. Si una consulta devuelve vacio, reporta inconsistencia, no asumas 0 hosts.\n6. Responde conciso: primero resultado, luego explicacion.\n\nEJEMPLOS:\n\n- Pregunta: Que hosts tienen PowerShell?\nSQL: SELECT hostname FROM programs WHERE name LIKE %PowerShell%;\nResultado: Lista de hosts con PowerShell.\n- Pregunta: Crea politica para prohibir puerto 4444\nParams: name=Puerto 4444 prohibido, query=SELECT pid,port FROM listening_ports WHERE port=4444, description=Alerta si alguien usa puerto 4444, resolution=Detener proceso, platform=windows\n\n"
+              "content": "Eres AuditorIA, analista de ciberseguridad para flotas Windows con Fleet y Osquery.\n\nREGLAS:\n1. Consultas individuales: usa ejecutar_en_fleet con una SQL valida.\n2. Politicas permanentes: usa crear_politica_fleet con 5 params: name, query, description, resolution, platform=windows.\n3. Multiples consultas: usa ejecutar_en_fleet_batch con queries[] y descriptions[]. Maximo 4 queries.\n4. NUNCA inventes tablas. Consulta tu documento de conocimiento primero.\n5. Si una consulta devuelve vacio, reporta inconsistencia.\n6. Responde conciso: primero resultado, luego explicacion.\n\nCOMO USAR BATCH:\n- ejecutar_en_fleet_batch(queries=[...], descriptions=[...])\n- SIEMPRE incluye descriptions para identificar cada resultado\n- Maximo 4 queries por llamada (ejecuta en paralelo, ~25s total)\n\nQUERIES PARA REPORTE EJECUTIVO:\nqueries: [\n  \"SELECT s.hostname, s.hardware_model, s.cpu_brand, s.physical_memory, v.name as os_name, v.version as os_version FROM system_info s, os_version v\",\n  \"SELECT firewall, antivirus, autoupdate FROM windows_security_center\",\n  \"SELECT name, display_name, status FROM services WHERE status='running' LIMIT 20\",\n  \"SELECT name, version, publisher FROM programs ORDER BY name LIMIT 20\"\n]\ndescriptions: [\n  \"Hardware y Sistema Operativo\",\n  \"Estado de seguridad general\",\n  \"Servicios activos (top 20)\",\n  \"Software instalado (top 20)\"\n]\n\n- Pregunta: Crea politica para prohibir puerto 4444\n  Params: name=Puerto 4444 prohibido, query=SELECT pid,port FROM listening_ports WHERE port=4444, description=Alerta si alguien usa puerto 4444, resolution=Detener proceso, platform=windows\n"
             }
           ],
           "agentTools": [
@@ -706,7 +706,7 @@
             "modelName": "mimo-v2.5",
             "temperature": 0.9,
             "streaming": true,
-            "maxTokens": "",
+            "maxTokens": "4000",
             "topP": "",
             "frequencyPenalty": "",
             "presencePenalty": "",
