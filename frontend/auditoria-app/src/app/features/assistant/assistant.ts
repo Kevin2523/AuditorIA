@@ -58,8 +58,8 @@ export class Assistant implements AfterViewInit {
       sender: 'assistant',
       text: welcomeText,
       html: this.sanitizer.bypassSecurityTrustHtml(`
-         <p class="font-semibold text-[#0F172A] mb-1">Hola, soy tu Asistente de Seguridad.</p>
-         <p class="text-[#475569]">Estoy preparado para analizar tu flota, detectar vulnerabilidades y aplicar reparacion autonoma de forma segura. En que te puedo ayudar hoy?</p>
+         <p class="font-semibold text-white mb-1">Hola, soy tu Asistente de Seguridad.</p>
+         <p class="text-slate-200">Estoy preparado para analizar tu flota, detectar vulnerabilidades y aplicar reparación autónoma de forma segura. ¿En qué te puedo ayudar hoy?</p>
       `),
       time: this.getTime()
     });
@@ -98,7 +98,7 @@ export class Assistant implements AfterViewInit {
       id: msgId,
       sender: 'assistant',
       text: '',
-      html: this.sanitizer.bypassSecurityTrustHtml('<span class="text-[#64748B] font-medium animate-pulse">...</span>'),
+      html: this.sanitizer.bypassSecurityTrustHtml('<span class="text-slate-300 font-medium animate-pulse">...</span>'),
       time: this.getTime()
     };
     this.messages.push(assistantMessage);
@@ -119,7 +119,7 @@ export class Assistant implements AfterViewInit {
 
       if (!res.text && !assistantMessage.text) {
         assistantMessage.text = 'Sin respuesta del agente.';
-        assistantMessage.html = this.sanitizer.bypassSecurityTrustHtml('<span class="text-[#64748B]">Sin respuesta del agente.</span>');
+        assistantMessage.html = this.sanitizer.bypassSecurityTrustHtml('<span class="text-slate-300">Sin respuesta del agente.</span>');
       }
 
       if (this.isVoiceEnabled && isAudioRequest && assistantMessage.text) {

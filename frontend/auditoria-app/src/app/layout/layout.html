@@ -1,35 +1,39 @@
-<div class="flex flex-col h-screen overflow-hidden bg-[#F4F6F9] font-display">
+<div class="flex flex-col h-screen overflow-hidden text-slate-100 font-display relative select-none bg-slate-950"
+     style="background-image: url('/assets/app_bg.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+
+  <!-- Atmospheric Dark Vignette Overlay -->
+  <div class="absolute inset-0 bg-slate-950/65 backdrop-blur-[2px] pointer-events-none z-0"></div>
 
   <!-- ============================================================
-       TOP HEADER — EXECUTIVE STUDIO BAR (ELEGANT & UNCLUTTERED)
+       TOP HEADER — EXECUTIVE STUDIO GLASS BAR
   ============================================================ -->
-  <header class="h-[72px] bg-white border-b border-[#E2E8F0] flex items-center justify-between px-6 lg:px-8 shrink-0 relative z-40 shadow-xs">
+  <header class="h-[68px] bg-black/40 backdrop-blur-2xl border-b border-white/10 flex items-center justify-between px-6 lg:px-8 shrink-0 relative z-40 shadow-xl">
     
     <!-- Brand Mark -->
-    <a routerLink="/dashboard" class="flex items-center gap-3 text-[#0F172A] no-underline group shrink-0">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0F172A] to-[#1E293B] flex items-center justify-center text-white font-extrabold text-[16px] shadow-sm group-hover:scale-105 transition-transform">
+    <a routerLink="/dashboard" class="flex items-center gap-3 text-white no-underline group shrink-0">
+      <div class="w-9 h-9 rounded-md bg-white/10 border border-white/20 flex items-center justify-center text-white font-serif font-bold text-lg shadow-sm group-hover:scale-105 transition-transform backdrop-blur-md">
         A
       </div>
       <div class="flex flex-col">
-        <span class="font-display text-[17px] font-extrabold text-[#0F172A] tracking-tight leading-none">
+        <span class="font-['Playfair_Display','Times_New_Roman',serif] text-[18px] font-bold text-white tracking-tight leading-tight">
           AuditorIA
         </span>
-        <span class="text-[10px] font-extrabold tracking-wider text-[#059669] uppercase mt-1">Executive Studio</span>
+        <span class="text-[9px] font-semibold tracking-[0.25em] text-slate-300 uppercase mt-0.5">Executive Studio</span>
       </div>
     </a>
 
     <!-- Global Search Input Command Palette -->
     <div class="flex-1 max-w-md mx-6 hidden md:block">
       <div class="relative flex items-center">
-        <svg class="w-4 h-4 absolute left-3.5 text-[#94A3B8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="w-4 h-4 absolute left-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input
           type="text"
           (input)="updateGlobalQuery($event)"
           (keydown.enter)="runGlobalSearch()"
           placeholder="Buscar dispositivos, reportes o alertas..."
-          class="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl pl-10 pr-12 py-2.5 text-[13px] text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#059669]/20 focus:border-[#059669] transition-all placeholder:text-[#94A3B8]"
+          class="w-full bg-white/10 hover:bg-white/15 border border-white/15 rounded-md pl-10 pr-12 py-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-white/30 focus:bg-white/20 transition-all placeholder:text-slate-400 backdrop-blur-md"
         >
-        <span class="absolute right-3 text-[10px] font-mono font-semibold text-[#94A3B8] bg-white border border-[#E2E8F0] px-1.5 py-0.5 rounded shadow-2xs">⌘K</span>
+        <span class="absolute right-3 text-[10px] font-mono font-semibold text-slate-400 bg-white/10 border border-white/10 px-1.5 py-0.5 rounded">⌘K</span>
       </div>
     </div>
 
@@ -37,8 +41,8 @@
     <div class="flex items-center gap-3 shrink-0">
       
       <!-- Configuración MFA -->
-      <button (click)="toggleSettings()" class="w-10 h-10 rounded-full border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors cursor-pointer" title="Configuración de seguridad">
-        <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <button (click)="toggleSettings()" class="w-9 h-9 rounded-md border border-white/15 bg-white/5 hover:bg-white/15 flex items-center justify-center text-slate-300 hover:text-white transition-all cursor-pointer backdrop-blur-md" title="Configuración de seguridad">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <circle cx="12" cy="12" r="3"/>
           <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.32 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
         </svg>
@@ -46,24 +50,24 @@
 
       <!-- Notificaciones -->
       <div class="relative">
-        <button (click)="toggleNotifications()" class="relative w-10 h-10 rounded-full border border-[#E2E8F0] flex items-center justify-center text-[#64748B] hover:bg-[#F8FAFC] hover:text-[#0F172A] transition-colors cursor-pointer">
-          <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
-          <span *ngIf="auditNotifications.unreadCount() > 0" class="absolute -top-1 -right-1 min-w-4.5 h-4.5 rounded-full bg-red-500 border-2 border-white text-white text-[9px] font-bold flex items-center justify-center px-1">
+        <button (click)="toggleNotifications()" class="relative w-9 h-9 rounded-md border border-white/15 bg-white/5 hover:bg-white/15 flex items-center justify-center text-slate-300 hover:text-white transition-all cursor-pointer backdrop-blur-md">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span *ngIf="auditNotifications.unreadCount() > 0" class="absolute -top-1 -right-1 min-w-4 h-4 rounded-full bg-red-500 border border-black text-white text-[9px] font-bold flex items-center justify-center px-1">
             {{auditNotifications.unreadCount()}}
           </span>
         </button>
 
         <!-- Notifications Dropdown -->
-        <div *ngIf="notificationsOpen()" class="absolute right-0 top-13 w-[350px] bg-white border border-[#E2E8F0] rounded-2xl shadow-xl z-50 overflow-hidden">
-          <div class="px-4 py-3.5 border-b border-[#E2E8F0] flex items-center justify-between gap-3 bg-[#F8FAFC]">
+        <div *ngIf="notificationsOpen()" class="absolute right-0 top-12 w-[340px] bg-slate-900/90 border border-white/15 rounded-lg shadow-2xl z-50 overflow-hidden backdrop-blur-xl">
+          <div class="px-4 py-3 border-b border-white/10 flex items-center justify-between gap-3 bg-white/5">
             <div>
-              <p class="text-[13px] font-bold text-[#0F172A]">Notificaciones de auditoría</p>
-              <p class="text-[11px] text-[#64748B]">{{auditNotifications.unreadCount()}} pendientes</p>
+              <p class="text-[12px] font-bold text-white">Notificaciones de auditoría</p>
+              <p class="text-[10px] text-slate-400">{{auditNotifications.unreadCount()}} pendientes</p>
             </div>
-            <button *ngIf="auditNotifications.systemPermission() === 'default'" (click)="enableSystemNotifications()" class="text-[11px] font-bold text-[#059669] hover:text-[#047857] cursor-pointer">
+            <button *ngIf="auditNotifications.systemPermission() === 'default'" (click)="enableSystemNotifications()" class="text-[10px] font-bold text-emerald-400 hover:text-emerald-300 cursor-pointer">
               Activar sistema
             </button>
-            <button *ngIf="auditNotifications.unreadCount() > 0" (click)="markNotificationsRead()" class="text-[11px] font-bold text-[#64748B] hover:text-[#0F172A] cursor-pointer">
+            <button *ngIf="auditNotifications.unreadCount() > 0" (click)="markNotificationsRead()" class="text-[10px] font-bold text-slate-400 hover:text-white cursor-pointer">
               Marcar leídas
             </button>
           </div>
@@ -72,19 +76,19 @@
             <button
               *ngFor="let item of auditNotifications.notifications()"
               (click)="openNotification(item)"
-              class="w-full text-left px-4 py-3.5 border-b border-[#F1F5F9] hover:bg-[#F8FAFC] transition-colors cursor-pointer"
-              [class.bg-[#FEF2F2]]="!item.read && item.severity === 'critical'"
+              class="w-full text-left px-4 py-3 border-b border-white/5 hover:bg-white/10 transition-colors cursor-pointer"
+              [class.bg-red-950\/40]="!item.read && item.severity === 'critical'"
             >
-              <div class="flex items-start gap-3">
-                <span class="mt-1 w-2.5 h-2.5 rounded-full shrink-0" [class.bg-red-500]="item.severity === 'critical'" [class.bg-[#F59E0B]]="item.severity === 'warning'"></span>
+              <div class="flex items-start gap-2.5">
+                <span class="mt-1 w-2 h-2 rounded-full shrink-0" [class.bg-red-500]="item.severity === 'critical'" [class.bg-amber-400]="item.severity === 'warning'"></span>
                 <div>
-                  <p class="text-[13px] font-bold text-[#0F172A]">{{item.title}}</p>
-                  <p class="text-[12px] text-[#475569] leading-snug">{{item.message}}</p>
+                  <p class="text-[12px] font-bold text-white">{{item.title}}</p>
+                  <p class="text-[11px] text-slate-300 leading-snug">{{item.message}}</p>
                 </div>
               </div>
             </button>
 
-            <p *ngIf="auditNotifications.notifications().length === 0" class="px-4 py-8 text-center text-[13px] text-[#94A3B8]">
+            <p *ngIf="auditNotifications.notifications().length === 0" class="px-4 py-6 text-center text-xs text-slate-400">
               Sin problemas detectados en auditorías.
             </p>
           </div>
@@ -92,12 +96,12 @@
       </div>
 
       <!-- Account Badge & Logout -->
-      <div class="flex items-center gap-3 pl-3 border-l border-[#E2E8F0]">
-        <img [src]="'https://ui-avatars.com/api/?name=' + (auth.currentUserSignal()?.displayName || auth.currentUserSignal()?.email || 'Usuario') + '&background=059669&color=fff&rounded=true'" alt="User" class="w-9 h-9 rounded-full shadow-xs" />
+      <div class="flex items-center gap-3 pl-3 border-l border-white/15">
+        <img [src]="'https://ui-avatars.com/api/?name=' + (auth.currentUserSignal()?.displayName || auth.currentUserSignal()?.email || 'Usuario') + '&background=1e293b&color=fff&rounded=true'" alt="User" class="w-8 h-8 rounded-full border border-white/20 shadow-sm" />
         <div class="hidden lg:block text-left">
-          <p class="text-[13px] font-bold text-[#0F172A] leading-tight truncate max-w-[130px]">{{auth.currentUserSignal()?.displayName || auth.currentUserSignal()?.email}}</p>
+          <p class="text-[12px] font-bold text-white leading-tight truncate max-w-[130px]">{{auth.currentUserSignal()?.displayName || auth.currentUserSignal()?.email}}</p>
         </div>
-        <button (click)="logout()" title="Cerrar sesión" class="w-9 h-9 rounded-full flex items-center justify-center text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors cursor-pointer">
+        <button (click)="logout()" title="Cerrar sesión" class="w-8 h-8 rounded-md flex items-center justify-center text-slate-300 hover:bg-white/10 hover:text-white transition-all cursor-pointer">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         </button>
       </div>
@@ -108,22 +112,23 @@
   <!-- ============================================================
        SUB-HEADER NAVIGATION CONTROL (SEGMENTED CONTROL BAR)
   ============================================================ -->
-  <div class="bg-white border-b border-[#E2E8F0] px-6 lg:px-8 py-2.5 shrink-0 z-30 overflow-x-auto no-scrollbar">
-    <nav class="flex items-center gap-2 min-w-max">
+  <div class="bg-black/30 backdrop-blur-xl border-b border-white/10 px-6 lg:px-8 py-2 shrink-0 z-30 overflow-x-auto no-scrollbar relative flex items-center justify-center">
+    <nav class="flex items-center justify-center gap-1.5 min-w-max mx-auto">
       <ng-container *ngFor="let section of sections">
         <ng-container *ngFor="let item of getItemsBySection(section)">
           <a
             [routerLink]="item.route"
-            routerLinkActive="studio-nav-active"
-            class="flex items-center gap-2.5 px-4 py-2 rounded-xl text-[#64748B] text-[13px] font-extrabold transition-all duration-200 hover:text-[#0F172A] hover:bg-[#F8FAFC] select-none whitespace-nowrap"
+            routerLinkActive="bg-white/20 text-white border border-white/25 shadow-sm"
+            [routerLinkActiveOptions]="{exact: false}"
+            class="flex items-center gap-2 px-3.5 py-1.5 rounded-md text-slate-300 text-xs font-semibold transition-all duration-200 hover:text-white hover:bg-white/10 select-none whitespace-nowrap"
           >
-            <div class="text-[#64748B] transition-colors">
-              <svg *ngIf="item.icon==='layout-dashboard'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
-              <svg *ngIf="item.icon==='laptop'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
-              <svg *ngIf="item.icon==='activity'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-              <svg *ngIf="item.icon==='bot'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
-              <svg *ngIf="item.icon==='users'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              <svg *ngIf="item.icon==='book'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <div class="text-slate-300 transition-colors">
+              <svg *ngIf="item.icon==='layout-dashboard'" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+              <svg *ngIf="item.icon==='laptop'" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+              <svg *ngIf="item.icon==='activity'" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <svg *ngIf="item.icon==='bot'" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
+              <svg *ngIf="item.icon==='users'" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              <svg *ngIf="item.icon==='book'" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
             </div>
             <span>{{item.label}}</span>
           </a>
@@ -135,7 +140,7 @@
   <!-- ============================================================
        CANVAS DE CONTENIDO PRINCIPAL
   ============================================================ -->
-  <main class="flex-1 bg-[#F4F6F9]" [class.overflow-hidden]="isAssistantRoute" [class.p-0]="isAssistantRoute" [class.overflow-y-auto]="!isAssistantRoute" [class.p-6]="!isAssistantRoute" [class.lg:p-8]="!isAssistantRoute">
+  <main class="flex-1 relative z-10" [class.overflow-hidden]="isAssistantRoute" [class.p-0]="isAssistantRoute" [class.overflow-y-auto]="!isAssistantRoute" [class.p-5]="!isAssistantRoute" [class.lg:p-7]="!isAssistantRoute">
     <router-outlet />
   </main>
 
@@ -146,9 +151,9 @@
     *ngIf="!isAssistantRoute && !chatDrawer.isOpen() && auth.canUseAi()"
     (click)="chatDrawer.open()"
     title="Consultar IA"
-    class="fixed bottom-6 right-6 z-[80] w-14 h-14 rounded-full bg-[#059669] text-white shadow-xl shadow-[#059669]/30 flex items-center justify-center hover:bg-[#047857] hover:scale-105 active:scale-95 transition-all duration-200 group cursor-pointer"
+    class="fixed bottom-6 right-6 z-[80] w-12 h-12 rounded-full bg-white text-slate-950 shadow-2xl flex items-center justify-center hover:bg-slate-100 hover:scale-105 active:scale-95 transition-all duration-200 group cursor-pointer border border-white/30"
   >
-    <svg class="w-6 h-6 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    <svg class="w-5 h-5 text-slate-900 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
       <path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/>
       <path d="M2 14h2"/><path d="M20 14h2"/>
       <path d="M15 13v2"/><path d="M9 13v2"/>
@@ -161,25 +166,25 @@
   <div
     *ngIf="chatDrawer.isOpen() && auth.canUseAi()"
     (click)="chatDrawer.close()"
-    class="fixed inset-0 bg-black/30 z-[90] backdrop-blur-[2px] transition-opacity"
+    class="fixed inset-0 bg-black/50 z-[90] backdrop-blur-sm transition-opacity"
   ></div>
 
   <div
-    class="fixed top-0 right-0 h-full w-[520px] max-w-full bg-[#F8FAFC] shadow-2xl z-[100] flex flex-col transform transition-transform duration-300 ease-in-out"
+    class="fixed top-0 right-0 h-full w-[520px] max-w-full bg-slate-950/90 border-l border-white/15 shadow-2xl z-[100] flex flex-col transform transition-transform duration-300 ease-in-out backdrop-blur-2xl"
     [class.translate-x-0]="chatDrawer.isOpen()"
     [class.translate-x-full]="!chatDrawer.isOpen()"
   >
-    <div class="h-14 bg-white border-b border-[#E2E8F0] flex items-center justify-between px-6 shrink-0 shadow-xs">
+    <div class="h-14 bg-white/5 border-b border-white/10 flex items-center justify-between px-6 shrink-0">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-[#ECFDF5] flex items-center justify-center text-[#059669]">
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>
         </div>
         <div>
-          <p class="text-[14px] font-bold text-[#0F172A] leading-tight">Asistente Virtual</p>
-          <p class="text-[11px] text-[#059669] font-bold">● En línea</p>
+          <p class="text-[13px] font-bold text-white leading-tight">Asistente Virtual</p>
+          <p class="text-[10px] text-emerald-400 font-bold">● En línea</p>
         </div>
       </div>
-      <button (click)="chatDrawer.close()" class="w-9 h-9 rounded-full flex items-center justify-center text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors cursor-pointer">
+      <button (click)="chatDrawer.close()" class="w-8 h-8 rounded-md flex items-center justify-center text-slate-300 hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
@@ -194,28 +199,28 @@
   <div
     *ngIf="settingsOpen()"
     (click)="toggleSettings()"
-    class="fixed inset-0 bg-black/30 z-[90] backdrop-blur-[2px] transition-opacity"
+    class="fixed inset-0 bg-black/50 z-[90] backdrop-blur-sm transition-opacity"
   ></div>
 
   <div
-    class="fixed top-0 right-0 h-full w-[520px] max-w-full bg-[#F8FAFC] shadow-2xl z-[100] flex flex-col transform transition-transform duration-300 ease-in-out"
+    class="fixed top-0 right-0 h-full w-[520px] max-w-full bg-slate-950/90 border-l border-white/15 shadow-2xl z-[100] flex flex-col transform transition-transform duration-300 ease-in-out backdrop-blur-2xl"
     [class.translate-x-0]="settingsOpen()"
     [class.translate-x-full]="!settingsOpen()"
   >
-    <div class="h-14 bg-white border-b border-[#E2E8F0] flex items-center justify-between px-6 shrink-0 shadow-xs">
+    <div class="h-14 bg-white/5 border-b border-white/10 flex items-center justify-between px-6 shrink-0">
       <div class="flex items-center gap-3">
-        <div class="w-8 h-8 rounded-full bg-[#ECFDF5] flex items-center justify-center text-[#059669]">
+        <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <circle cx="12" cy="12" r="3"/>
             <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.32 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
           </svg>
         </div>
         <div>
-          <p class="text-[14px] font-bold text-[#0F172A] leading-tight">Configuración</p>
-          <p class="text-[11px] text-[#64748B]">Seguridad de la cuenta</p>
+          <p class="text-[13px] font-bold text-white leading-tight">Configuración</p>
+          <p class="text-[10px] text-slate-400">Seguridad de la cuenta</p>
         </div>
       </div>
-      <button (click)="toggleSettings()" class="w-9 h-9 rounded-full flex items-center justify-center text-[#64748B] hover:bg-[#F1F5F9] hover:text-[#0F172A] transition-colors cursor-pointer">
+      <button (click)="toggleSettings()" class="w-8 h-8 rounded-md flex items-center justify-center text-slate-300 hover:bg-white/10 hover:text-white transition-colors cursor-pointer">
         <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>

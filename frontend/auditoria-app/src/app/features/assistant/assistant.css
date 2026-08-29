@@ -4,16 +4,28 @@
   overflow: hidden;
 }
 
-:host ::ng-deep .chat-html p { margin-bottom: 0.5rem; }
+:host ::ng-deep .chat-html { color: #f8fafc; }
+:host ::ng-deep .chat-html p { margin-bottom: 0.5rem; color: #e2e8f0; }
 :host ::ng-deep .chat-html p:last-child { margin-bottom: 0; }
-:host ::ng-deep .chat-html strong { color: #0F172A; font-weight: 700; }
+:host ::ng-deep .chat-html strong { color: #ffffff; font-weight: 700; }
+:host ::ng-deep .chat-html em { color: #cbd5e1; font-style: italic; }
 :host ::ng-deep .chat-html code {
-  background-color: #F1F5F9;
-  color: #334155;
-  padding: 0.1rem 0.3rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #38bdf8;
+  padding: 0.15rem 0.4rem;
   border-radius: 4px;
   font-size: 0.85em;
-  font-family: inherit;
+  font-family: monospace;
 }
+:host ::ng-deep .chat-html pre {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #f1f5f9;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  overflow-x: auto;
+  font-family: monospace;
+}
+
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

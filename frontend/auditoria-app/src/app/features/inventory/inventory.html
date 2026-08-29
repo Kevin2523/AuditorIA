@@ -3,30 +3,30 @@
   <!-- ============================================================
        HEADER DE INVENTARIO Y BARRAS DE CONTROL
   ============================================================ -->
-  <div class="bg-white border border-[#E2E8F0] rounded-3xl p-6 lg:p-7 shadow-sm space-y-5">
+  <div class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-6 lg:p-7 shadow-2xl space-y-5">
     
     <!-- Title & Controls Row -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <div class="flex items-center gap-2 mb-1">
-          <span class="text-[11px] font-extrabold text-[#059669] bg-[#ECFDF5] border border-[#A7F3D0] px-3 py-0.5 rounded-full uppercase tracking-wider">
+          <span class="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-500/30 px-3 py-0.5 rounded-md uppercase tracking-wider">
             Nodos Activos: {{devices().length}}
           </span>
-          <span *ngIf="fleet.isOffline()" class="text-[11px] font-bold text-[#92400E] bg-[#FEF3C7] px-2.5 py-0.5 rounded-full">Offline</span>
+          <span *ngIf="fleet.isOffline()" class="text-[10px] font-bold text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-md">Offline</span>
         </div>
-        <h1 class="text-2xl lg:text-3xl font-extrabold text-[#0F172A] tracking-tight">Inventario de Dispositivos & Flota</h1>
-        <p class="text-[13px] text-[#64748B]">Monitoreo de equipos registrados, estado de parches y telemetría de auditoría.</p>
+        <h1 class="font-['Playfair_Display','Times_New_Roman',serif] text-2xl lg:text-3xl font-bold text-white tracking-tight">Inventario de Dispositivos & Flota</h1>
+        <p class="text-xs text-slate-300">Monitoreo de equipos registrados, estado de parches y telemetría de auditoría.</p>
       </div>
 
       <!-- View Switcher (Grid vs Table) -->
-      <div class="flex items-center gap-2 bg-[#F8FAFC] border border-[#E2E8F0] p-1.5 rounded-2xl shrink-0">
+      <div class="flex items-center gap-2 bg-white/10 border border-white/15 p-1 rounded-md shrink-0 backdrop-blur-md">
         <button
           (click)="setViewMode('grid')"
-          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[12px] font-extrabold transition-all cursor-pointer"
+          class="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer"
           [class.bg-white]="viewMode() === 'grid'"
-          [class.text-[#0F172A]]="viewMode() === 'grid'"
-          [class.shadow-xs]="viewMode() === 'grid'"
-          [class.text-[#64748B]]="viewMode() !== 'grid'"
+          [class.text-slate-950]="viewMode() === 'grid'"
+          [class.shadow-sm]="viewMode() === 'grid'"
+          [class.text-slate-300]="viewMode() !== 'grid'"
         >
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
           Vista en Tarjetas
@@ -34,11 +34,11 @@
 
         <button
           (click)="setViewMode('table')"
-          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-[12px] font-extrabold transition-all cursor-pointer"
+          class="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all cursor-pointer"
           [class.bg-white]="viewMode() === 'table'"
-          [class.text-[#0F172A]]="viewMode() === 'table'"
-          [class.shadow-xs]="viewMode() === 'table'"
-          [class.text-[#64748B]]="viewMode() !== 'table'"
+          [class.text-slate-950]="viewMode() === 'table'"
+          [class.shadow-sm]="viewMode() === 'table'"
+          [class.text-slate-300]="viewMode() !== 'table'"
         >
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
           Vista en Lista
@@ -47,34 +47,34 @@
     </div>
 
     <!-- Search & Status Filter Bar -->
-    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-4 border-t border-[#F1F5F9]">
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pt-4 border-t border-white/10">
       
       <!-- Search input -->
       <div class="relative flex-1 max-w-md">
-        <svg class="w-4 h-4 absolute left-3.5 top-3 text-[#94A3B8]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg class="w-4 h-4 absolute left-3.5 top-2.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         <input
           type="text"
           placeholder="Buscar por equipo, OS o hostname..."
           [value]="query()"
           (input)="onFilter($event)"
-          class="w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl pl-10 pr-4 py-2 text-[13px] text-[#0F172A] focus:bg-white focus:outline-none focus:border-[#059669] focus:ring-2 focus:ring-[#059669]/20 transition-all placeholder:text-[#94A3B8]"
+          class="w-full bg-white/10 border border-white/15 rounded-md pl-10 pr-4 py-2 text-xs text-white focus:bg-white/15 focus:outline-none focus:border-white/30 transition-all placeholder:text-slate-400"
         >
       </div>
 
       <!-- Filter Pills -->
       <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">
-        <span class="text-[11px] font-extrabold text-[#94A3B8] uppercase tracking-wider mr-1 hidden sm:inline">Filtrar:</span>
+        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1 hidden sm:inline">Filtrar:</span>
         <button
           *ngFor="let status of statuses"
           (click)="setStatus(status)"
-          class="px-3.5 py-1.5 rounded-full text-[12px] font-extrabold transition-all cursor-pointer whitespace-nowrap border"
-          [class.bg-[#0F172A]]="selectedStatus() === status"
-          [class.text-white]="selectedStatus() === status"
-          [class.border-[#0F172A]]="selectedStatus() === status"
-          [class.bg-white]="selectedStatus() !== status"
-          [class.text-[#64748B]]="selectedStatus() !== status"
-          [class.border-[#E2E8F0]]="selectedStatus() !== status"
-          [class.hover:bg-[#F8FAFC]]="selectedStatus() !== status"
+          class="px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer whitespace-nowrap border"
+          [class.bg-white]="selectedStatus() === status"
+          [class.text-slate-950]="selectedStatus() === status"
+          [class.border-white]="selectedStatus() === status"
+          [class.bg-white\/10]="selectedStatus() !== status"
+          [class.text-slate-300]="selectedStatus() !== status"
+          [class.border-white\/15]="selectedStatus() !== status"
+          [class.hover:bg-white\/20]="selectedStatus() !== status"
         >
           {{status}}
         </button>
@@ -83,139 +83,139 @@
   </div>
 
   <!-- ============================================================
-       MODO 1: GALERÍA INNOVADORA DE TARJETAS DE NODOS (GRID VIBRANTE)
+       MODO 1: GALERÍA DE TARJETAS DE NODOS (GLASS CARDS)
   ============================================================ -->
   <div *ngIf="viewMode() === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     
     <div
       *ngFor="let device of devices()"
-      class="bg-white border border-[#E2E8F0] rounded-3xl p-6 shadow-sm hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:border-[#CBD5E1]"
+      class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-6 shadow-2xl hover:border-white/30 transition-all duration-200 flex flex-col justify-between group"
     >
       <!-- Card Top: OS Icon + Status Badge -->
       <div>
         <div class="flex items-start justify-between mb-4">
-          <div class="w-12 h-12 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center text-[#0F172A] group-hover:scale-110 transition-transform shadow-2xs">
-            <svg *ngIf="device.osFamily === 'windows'" class="w-6 h-6 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
-            <svg *ngIf="device.osFamily === 'ubuntu' || device.osFamily === 'linux'" class="w-6 h-6 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/></svg>
-            <svg *ngIf="device.osFamily === 'mac'" class="w-6 h-6 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13c0 4-2 7-4 7s-4-3-4-7 2-7 4-7 4 3 4 7z"/><path d="M12 6c0-2 1-3 3-3"/></svg>
-            <svg *ngIf="device.osFamily === 'other'" class="w-6 h-6 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+          <div class="w-11 h-11 rounded-md bg-white/10 border border-white/15 flex items-center justify-center text-white group-hover:scale-105 transition-transform backdrop-blur-md">
+            <svg *ngIf="device.osFamily === 'windows'" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+            <svg *ngIf="device.osFamily === 'ubuntu' || device.osFamily === 'linux'" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/></svg>
+            <svg *ngIf="device.osFamily === 'mac'" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13c0 4-2 7-4 7s-4-3-4-7 2-7 4-7 4 3 4 7z"/><path d="M12 6c0-2 1-3 3-3"/></svg>
+            <svg *ngIf="device.osFamily === 'other'" class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
           </div>
 
           <!-- Status Pill Badge -->
-          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-[#ECFDF5] text-[#047857] border border-[#A7F3D0] text-[11px] font-extrabold px-3 py-1 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-[#10B981]"></span> Protegido
+          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Protegido
           </span>
-          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-[#FEF2F2] text-[#B91C1C] border border-[#FECACA] text-[11px] font-extrabold px-3 py-1 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-[#EF4444] animate-pulse"></span> Riesgo Detectado
+          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+            <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span> Riesgo Detectado
           </span>
-          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-[#F1F5F9] text-[#475569] border border-[#CBD5E1] text-[11px] font-extrabold px-3 py-1 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-[#64748B]"></span> Offline
+          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-slate-800/60 text-slate-300 border border-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+            <span class="w-2 h-2 rounded-full bg-slate-400"></span> Offline
           </span>
         </div>
 
         <!-- Node Info -->
-        <div class="space-y-2 mb-4">
-          <h3 class="text-xl font-extrabold text-[#0F172A] font-mono tracking-tight truncate">{{device.name}}</h3>
-          <p class="text-[13px] text-[#64748B] font-medium leading-relaxed line-clamp-2">{{device.os}}</p>
+        <div class="space-y-1 mb-4">
+          <h3 class="text-lg font-bold text-white font-mono tracking-tight truncate">{{device.name}}</h3>
+          <p class="text-xs text-slate-300 font-medium leading-relaxed line-clamp-2">{{device.os}}</p>
         </div>
 
         <!-- Metadata Badges -->
-        <div class="grid grid-cols-2 gap-2 pt-3 border-t border-[#F1F5F9] text-[12px]">
-          <div class="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0]">
-            <span class="text-[10px] font-extrabold text-[#94A3B8] uppercase block">Hostname</span>
-            <span class="font-mono font-bold text-[#0F172A] truncate block">{{device.hostname}}</span>
+        <div class="grid grid-cols-2 gap-2 pt-3 border-t border-white/10 text-xs">
+          <div class="bg-white/5 p-2 rounded-md border border-white/10">
+            <span class="text-[9px] font-bold text-slate-400 uppercase block">Hostname</span>
+            <span class="font-mono font-bold text-white truncate block">{{device.hostname}}</span>
           </div>
 
-          <div class="bg-[#F8FAFC] p-2.5 rounded-xl border border-[#E2E8F0]">
-            <span class="text-[10px] font-extrabold text-[#94A3B8] uppercase block">Última Auditoría</span>
-            <span class="font-bold text-[#0F172A] block">{{device.auditDate}}</span>
+          <div class="bg-white/5 p-2 rounded-md border border-white/10">
+            <span class="text-[9px] font-bold text-slate-400 uppercase block">Última Auditoría</span>
+            <span class="font-bold text-white block">{{device.auditDate}}</span>
           </div>
         </div>
       </div>
 
       <!-- Action & Drawer Button -->
-      <div class="mt-5 pt-3 border-t border-[#F1F5F9]">
+      <div class="mt-5 pt-3 border-t border-white/10">
         <button
           (click)="toggleDetails(device.id)"
-          class="w-full py-2.5 bg-[#F8FAFC] hover:bg-[#0F172A] hover:text-white text-[#0F172A] text-[12px] font-extrabold rounded-xl transition-all border border-[#E2E8F0] flex items-center justify-center gap-2 cursor-pointer"
+          class="w-full py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 flex items-center justify-center gap-2 cursor-pointer"
         >
           <span>{{ expandedDeviceId() === device.id ? 'Ocultar Detalle' : 'Ver Detalle de Telemetría' }}</span>
-          <svg class="w-4 h-4 transition-transform duration-200" [class.rotate-180]="expandedDeviceId() === device.id" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          <svg class="w-3.5 h-3.5 transition-transform duration-200" [class.rotate-180]="expandedDeviceId() === device.id" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
 
         <!-- Expanded Telemetry Drawer Card -->
-        <div *ngIf="expandedDeviceId() === device.id" class="mt-3 p-4 bg-[#F8FAFC] border border-[#E2E8F0] rounded-2xl text-[12px] space-y-2 animate-fadeIn">
-          <div class="flex justify-between py-1 border-b border-[#E2E8F0]">
-            <span class="text-[#64748B] font-semibold">Plataforma</span>
-            <span class="font-bold text-[#0F172A]">{{device.platform}}</span>
+        <div *ngIf="expandedDeviceId() === device.id" class="mt-3 p-3.5 bg-black/40 border border-white/15 rounded-md text-xs space-y-1.5 animate-fadeIn">
+          <div class="flex justify-between py-1 border-b border-white/10">
+            <span class="text-slate-400 font-medium">Plataforma</span>
+            <span class="font-bold text-white">{{device.platform}}</span>
           </div>
-          <div class="flex justify-between py-1 border-b border-[#E2E8F0]">
-            <span class="text-[#64748B] font-semibold">Fecha Inscripción</span>
-            <span class="font-bold text-[#0F172A]">{{device.enrolledAt}}</span>
+          <div class="flex justify-between py-1 border-b border-white/10">
+            <span class="text-slate-400 font-medium">Fecha Inscripción</span>
+            <span class="font-bold text-white">{{device.enrolledAt}}</span>
           </div>
           <div class="flex justify-between py-1">
-            <span class="text-[#64748B] font-semibold">Vulnerabilidades Críticas</span>
-            <span class="font-extrabold text-[#0F172A] bg-[#FEF2F2] text-[#B91C1C] px-2 py-0.5 rounded-full">{{device.criticalVulnerabilities}}</span>
+            <span class="text-slate-400 font-medium">Vulnerabilidades Críticas</span>
+            <span class="font-bold text-red-300 bg-red-950/50 border border-red-500/30 px-2 py-0.5 rounded-md">{{device.criticalVulnerabilities}}</span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Empty State -->
-    <div *ngIf="devices().length === 0" class="col-span-full bg-white border border-[#E2E8F0] rounded-3xl p-12 text-center space-y-2">
-      <p class="text-lg font-extrabold text-[#0F172A]">No se encontraron dispositivos</p>
-      <p class="text-[13px] text-[#64748B]">Intenta ajustar el filtro de búsqueda o el estado del nodo.</p>
+    <div *ngIf="devices().length === 0" class="col-span-full bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-12 text-center space-y-2">
+      <p class="text-base font-bold text-white">No se encontraron dispositivos</p>
+      <p class="text-xs text-slate-300">Intenta ajustar el filtro de búsqueda o el estado del nodo.</p>
     </div>
   </div>
 
   <!-- ============================================================
-       MODO 2: LISTA DE FILAS DE NODO ESTILIZADA (STUDIO ROW CARDS)
+       MODO 2: LISTA DE FILAS DE NODO (STUDIO ROW GLASS CARDS)
   ============================================================ -->
   <div *ngIf="viewMode() === 'table'" class="space-y-3">
     
     <div
       *ngFor="let device of devices()"
-      class="bg-white border border-[#E2E8F0] rounded-2xl p-4 lg:px-6 shadow-2xs hover:shadow-sm transition-all duration-200 flex flex-col space-y-3"
+      class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-4 lg:px-6 shadow-2xl hover:border-white/30 transition-all duration-200 flex flex-col space-y-3"
     >
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         
         <!-- Device Info -->
         <div class="flex items-center gap-3.5 min-w-[240px]">
-          <div class="w-10 h-10 rounded-xl bg-[#F8FAFC] border border-[#E2E8F0] flex items-center justify-center shrink-0">
-            <svg *ngIf="device.osFamily === 'windows'" class="w-5 h-5 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
-            <svg *ngIf="device.osFamily === 'ubuntu' || device.osFamily === 'linux'" class="w-5 h-5 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/></svg>
-            <svg *ngIf="device.osFamily === 'mac'" class="w-5 h-5 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13c0 4-2 7-4 7s-4-3-4-7 2-7 4-7 4 3 4 7z"/><path d="M12 6c0-2 1-3 3-3"/></svg>
-            <svg *ngIf="device.osFamily === 'other'" class="w-5 h-5 text-[#0F172A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+          <div class="w-9 h-9 rounded-md bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+            <svg *ngIf="device.osFamily === 'windows'" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+            <svg *ngIf="device.osFamily === 'ubuntu' || device.osFamily === 'linux'" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/></svg>
+            <svg *ngIf="device.osFamily === 'mac'" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13c0 4-2 7-4 7s-4-3-4-7 2-7 4-7 4 3 4 7z"/><path d="M12 6c0-2 1-3 3-3"/></svg>
+            <svg *ngIf="device.osFamily === 'other'" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
           </div>
           <div>
-            <h4 class="text-base font-extrabold text-[#0F172A] font-mono leading-tight">{{device.name}}</h4>
-            <span class="text-[12px] text-[#64748B] font-medium">{{device.os}}</span>
+            <h4 class="text-sm font-bold text-white font-mono leading-tight">{{device.name}}</h4>
+            <span class="text-xs text-slate-300 font-medium">{{device.os}}</span>
           </div>
         </div>
 
         <!-- Status -->
         <div>
-          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-[#ECFDF5] text-[#047857] border border-[#A7F3D0] text-[11px] font-extrabold px-3 py-1 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-[#10B981]"></span> Protegido
+          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Protegido
           </span>
-          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-[#FEF2F2] text-[#B91C1C] border border-[#FECACA] text-[11px] font-extrabold px-3 py-1 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-[#EF4444]"></span> Riesgo
+          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+            <span class="w-2 h-2 rounded-full bg-red-400"></span> Riesgo
           </span>
-          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-[#F1F5F9] text-[#475569] border border-[#CBD5E1] text-[11px] font-extrabold px-3 py-1 rounded-full">
-            <span class="w-2 h-2 rounded-full bg-[#64748B]"></span> Offline
+          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-slate-800/60 text-slate-300 border border-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+            <span class="w-2 h-2 rounded-full bg-slate-400"></span> Offline
           </span>
         </div>
 
         <!-- Audit Date -->
-        <div class="text-[12px] text-[#64748B]">
-          <span class="text-[10px] font-extrabold text-[#94A3B8] uppercase block">Última Auditoría</span>
-          <span class="font-bold text-[#0F172A]">{{device.auditDate}}</span>
+        <div class="text-xs text-slate-300">
+          <span class="text-[9px] font-bold text-slate-400 uppercase block">Última Auditoría</span>
+          <span class="font-bold text-white">{{device.auditDate}}</span>
         </div>
 
         <!-- Details Trigger Button -->
         <button
           (click)="toggleDetails(device.id)"
-          class="px-4 py-2 bg-[#F8FAFC] hover:bg-[#0F172A] hover:text-white text-[#0F172A] text-[12px] font-extrabold rounded-xl transition-all border border-[#E2E8F0] cursor-pointer"
+          class="px-3.5 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 cursor-pointer"
         >
           {{ expandedDeviceId() === device.id ? 'Ocultar' : 'Ver Detalles' }}
         </button>
@@ -223,28 +223,28 @@
       </div>
 
       <!-- Expanded Drawer Details -->
-      <div *ngIf="expandedDeviceId() === device.id" class="pt-3 border-t border-[#F1F5F9] grid grid-cols-1 sm:grid-cols-4 gap-4 text-[12px]">
-        <div class="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0]">
-          <span class="text-[10px] font-extrabold text-[#94A3B8] uppercase block">Hostname</span>
-          <span class="font-mono font-bold text-[#0F172A]">{{device.hostname}}</span>
+      <div *ngIf="expandedDeviceId() === device.id" class="pt-3 border-t border-white/10 grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+          <span class="text-[9px] font-bold text-slate-400 uppercase block">Hostname</span>
+          <span class="font-mono font-bold text-white">{{device.hostname}}</span>
         </div>
-        <div class="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0]">
-          <span class="text-[10px] font-extrabold text-[#94A3B8] uppercase block">Plataforma</span>
-          <span class="font-bold text-[#0F172A]">{{device.platform}}</span>
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+          <span class="text-[9px] font-bold text-slate-400 uppercase block">Plataforma</span>
+          <span class="font-bold text-white">{{device.platform}}</span>
         </div>
-        <div class="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0]">
-          <span class="text-[10px] font-extrabold text-[#94A3B8] uppercase block">Inscripción</span>
-          <span class="font-bold text-[#0F172A]">{{device.enrolledAt}}</span>
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+          <span class="text-[9px] font-bold text-slate-400 uppercase block">Inscripción</span>
+          <span class="font-bold text-white">{{device.enrolledAt}}</span>
         </div>
-        <div class="bg-[#F8FAFC] p-3 rounded-xl border border-[#E2E8F0]">
-          <span class="text-[10px] font-extrabold text-[#94A3B8] uppercase block">Vulnerabilidades</span>
-          <span class="font-extrabold text-[#B91C1C]">{{device.criticalVulnerabilities}} Críticas</span>
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+          <span class="text-[9px] font-bold text-slate-400 uppercase block">Vulnerabilidades</span>
+          <span class="font-bold text-red-300">{{device.criticalVulnerabilities}} Críticas</span>
         </div>
       </div>
     </div>
 
     <!-- Empty State -->
-    <div *ngIf="devices().length === 0" class="bg-white border border-[#E2E8F0] rounded-2xl p-8 text-center text-[13px] text-[#94A3B8]">
+    <div *ngIf="devices().length === 0" class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-8 text-center text-xs text-slate-400">
       Sin dispositivos registrados en esta vista.
     </div>
 
