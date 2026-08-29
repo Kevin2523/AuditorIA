@@ -54,8 +54,8 @@
     </div>
   </div>
 
-  <!-- Input Area (Integrated Glass Input Bar) -->
-  <div class="bg-black/30 border-t border-white/10 p-4 shrink-0 space-y-2 backdrop-blur-xl">
+  <!-- Input Area (Floating Glass Input Bar — No Dark Outer Box) -->
+  <div class="bg-transparent p-4 pb-5 shrink-0 space-y-2">
     <!-- Input Box Bar -->
     <div class="flex items-end gap-2.5 mx-auto w-full max-w-5xl relative rounded-md border border-white/20 bg-white/10 focus-within:bg-white/15 focus-within:border-white/30 transition-all p-2 backdrop-blur-md shadow-lg">
       <button (click)="toggleVoice()" class="w-9 h-9 rounded-md flex items-center justify-center shrink-0 transition-colors cursor-pointer" [class.bg-red-500\/20]="isRecording" [class.text-red-400]="isRecording" [class.text-slate-300]="!isRecording" [class.hover:bg-white\/10]="!isRecording" title="Control por Voz Inteligente">
