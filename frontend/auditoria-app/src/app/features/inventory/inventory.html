@@ -3,16 +3,16 @@
   <!-- ============================================================
        HEADER DE INVENTARIO Y BARRAS DE CONTROL
   ============================================================ -->
-  <div class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-6 lg:p-7 shadow-2xl space-y-5">
+  <div class="bg-black/20 backdrop-blur-lg border border-white/15 rounded-lg p-6 lg:p-7 shadow-2xl space-y-5">
     
     <!-- Title & Controls Row -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div>
         <div class="flex items-center gap-2 mb-1">
-          <span class="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-500/30 px-3 py-0.5 rounded-md uppercase tracking-wider">
+          <span class="text-[10px] font-bold text-emerald-300 bg-emerald-500/20 border border-emerald-500/30 px-3 py-0.5 rounded-md uppercase tracking-wider backdrop-blur-md">
             Nodos Activos: {{devices().length}}
           </span>
-          <span *ngIf="fleet.isOffline()" class="text-[10px] font-bold text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-md">Offline</span>
+          <span *ngIf="fleet.isOffline()" class="text-[10px] font-bold text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-md backdrop-blur-md">Offline</span>
         </div>
         <h1 class="font-['Playfair_Display','Times_New_Roman',serif] text-2xl lg:text-3xl font-bold text-white tracking-tight">Inventario de Dispositivos & Flota</h1>
         <p class="text-xs text-slate-300">Monitoreo de equipos registrados, estado de parches y telemetría de auditoría.</p>
@@ -57,7 +57,7 @@
           placeholder="Buscar por equipo, OS o hostname..."
           [value]="query()"
           (input)="onFilter($event)"
-          class="w-full bg-white/10 border border-white/15 rounded-md pl-10 pr-4 py-2 text-xs text-white focus:bg-white/15 focus:outline-none focus:border-white/30 transition-all placeholder:text-slate-400"
+          class="w-full bg-white/10 border border-white/15 rounded-md pl-10 pr-4 py-2 text-xs text-white focus:bg-white/15 focus:outline-none focus:border-white/30 transition-all placeholder:text-slate-400 backdrop-blur-md"
         >
       </div>
 
@@ -67,7 +67,7 @@
         <button
           *ngFor="let status of statuses"
           (click)="setStatus(status)"
-          class="px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer whitespace-nowrap border"
+          class="px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer whitespace-nowrap border backdrop-blur-md"
           [class.bg-white]="selectedStatus() === status"
           [class.text-slate-950]="selectedStatus() === status"
           [class.border-white]="selectedStatus() === status"
@@ -83,13 +83,13 @@
   </div>
 
   <!-- ============================================================
-       MODO 1: GALERÍA DE TARJETAS DE NODOS (GLASS CARDS)
+       MODO 1: GALERÍA DE TARJETAS DE NODOS (TRANSLUCENT GLASS CARDS)
   ============================================================ -->
   <div *ngIf="viewMode() === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     
     <div
       *ngFor="let device of devices()"
-      class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-6 shadow-2xl hover:border-white/30 transition-all duration-200 flex flex-col justify-between group"
+      class="bg-black/20 backdrop-blur-lg border border-white/15 rounded-lg p-6 shadow-2xl hover:border-white/30 hover:bg-black/30 transition-all duration-200 flex flex-col justify-between group"
     >
       <!-- Card Top: OS Icon + Status Badge -->
       <div>
@@ -102,13 +102,13 @@
           </div>
 
           <!-- Status Pill Badge -->
-          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Protegido
           </span>
-          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span> Riesgo Detectado
           </span>
-          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-slate-800/60 text-slate-300 border border-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-slate-800/60 text-slate-300 border border-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-md backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-slate-400"></span> Offline
           </span>
         </div>
@@ -121,12 +121,12 @@
 
         <!-- Metadata Badges -->
         <div class="grid grid-cols-2 gap-2 pt-3 border-t border-white/10 text-xs">
-          <div class="bg-white/5 p-2 rounded-md border border-white/10">
+          <div class="bg-white/5 p-2 rounded-md border border-white/10 backdrop-blur-md">
             <span class="text-[9px] font-bold text-slate-400 uppercase block">Hostname</span>
             <span class="font-mono font-bold text-white truncate block">{{device.hostname}}</span>
           </div>
 
-          <div class="bg-white/5 p-2 rounded-md border border-white/10">
+          <div class="bg-white/5 p-2 rounded-md border border-white/10 backdrop-blur-md">
             <span class="text-[9px] font-bold text-slate-400 uppercase block">Última Auditoría</span>
             <span class="font-bold text-white block">{{device.auditDate}}</span>
           </div>
@@ -137,14 +137,14 @@
       <div class="mt-5 pt-3 border-t border-white/10">
         <button
           (click)="toggleDetails(device.id)"
-          class="w-full py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 flex items-center justify-center gap-2 cursor-pointer"
+          class="w-full py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 flex items-center justify-center gap-2 cursor-pointer backdrop-blur-md"
         >
           <span>{{ expandedDeviceId() === device.id ? 'Ocultar Detalle' : 'Ver Detalle de Telemetría' }}</span>
           <svg class="w-3.5 h-3.5 transition-transform duration-200" [class.rotate-180]="expandedDeviceId() === device.id" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
 
         <!-- Expanded Telemetry Drawer Card -->
-        <div *ngIf="expandedDeviceId() === device.id" class="mt-3 p-3.5 bg-black/40 border border-white/15 rounded-md text-xs space-y-1.5 animate-fadeIn">
+        <div *ngIf="expandedDeviceId() === device.id" class="mt-3 p-3.5 bg-black/40 border border-white/15 rounded-md text-xs space-y-1.5 backdrop-blur-lg animate-fadeIn">
           <div class="flex justify-between py-1 border-b border-white/10">
             <span class="text-slate-400 font-medium">Plataforma</span>
             <span class="font-bold text-white">{{device.platform}}</span>
@@ -162,26 +162,26 @@
     </div>
 
     <!-- Empty State -->
-    <div *ngIf="devices().length === 0" class="col-span-full bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-12 text-center space-y-2">
+    <div *ngIf="devices().length === 0" class="col-span-full bg-black/20 backdrop-blur-lg border border-white/15 rounded-lg p-12 text-center space-y-2">
       <p class="text-base font-bold text-white">No se encontraron dispositivos</p>
       <p class="text-xs text-slate-300">Intenta ajustar el filtro de búsqueda o el estado del nodo.</p>
     </div>
   </div>
 
   <!-- ============================================================
-       MODO 2: LISTA DE FILAS DE NODO (STUDIO ROW GLASS CARDS)
+       MODO 2: LISTA DE FILAS DE NODO (MORE TRANSLUCENT GLASS ROW CARDS)
   ============================================================ -->
   <div *ngIf="viewMode() === 'table'" class="space-y-3">
     
     <div
       *ngFor="let device of devices()"
-      class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-4 lg:px-6 shadow-2xl hover:border-white/30 transition-all duration-200 flex flex-col space-y-3"
+      class="bg-black/20 backdrop-blur-lg border border-white/15 rounded-lg p-4 lg:px-6 shadow-2xl hover:border-white/30 hover:bg-black/30 transition-all duration-200 flex flex-col space-y-3"
     >
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         
         <!-- Device Info -->
         <div class="flex items-center gap-3.5 min-w-[240px]">
-          <div class="w-9 h-9 rounded-md bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+          <div class="w-9 h-9 rounded-md bg-white/10 border border-white/15 flex items-center justify-center shrink-0 backdrop-blur-md">
             <svg *ngIf="device.osFamily === 'windows'" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
             <svg *ngIf="device.osFamily === 'ubuntu' || device.osFamily === 'linux'" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="2.5"/><path d="M12 3v3"/><path d="M12 18v3"/><path d="M3 12h3"/><path d="M18 12h3"/></svg>
             <svg *ngIf="device.osFamily === 'mac'" class="w-4 h-4 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13c0 4-2 7-4 7s-4-3-4-7 2-7 4-7 4 3 4 7z"/><path d="M12 6c0-2 1-3 3-3"/></svg>
@@ -195,13 +195,13 @@
 
         <!-- Status -->
         <div>
-          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+          <span *ngIf="device.status==='Protegido'" class="inline-flex items-center gap-1.5 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Protegido
           </span>
-          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+          <span *ngIf="device.status==='Riesgo'" class="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 border border-red-500/30 text-[10px] font-bold px-2.5 py-0.5 rounded-md backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-red-400"></span> Riesgo
           </span>
-          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-slate-800/60 text-slate-300 border border-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-md">
+          <span *ngIf="device.status==='Offline'" class="inline-flex items-center gap-1.5 bg-slate-800/60 text-slate-300 border border-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-md backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-slate-400"></span> Offline
           </span>
         </div>
@@ -215,7 +215,7 @@
         <!-- Details Trigger Button -->
         <button
           (click)="toggleDetails(device.id)"
-          class="px-3.5 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 cursor-pointer"
+          class="px-3.5 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 cursor-pointer backdrop-blur-md"
         >
           {{ expandedDeviceId() === device.id ? 'Ocultar' : 'Ver Detalles' }}
         </button>
@@ -224,19 +224,19 @@
 
       <!-- Expanded Drawer Details -->
       <div *ngIf="expandedDeviceId() === device.id" class="pt-3 border-t border-white/10 grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs">
-        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10 backdrop-blur-md">
           <span class="text-[9px] font-bold text-slate-400 uppercase block">Hostname</span>
           <span class="font-mono font-bold text-white">{{device.hostname}}</span>
         </div>
-        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10 backdrop-blur-md">
           <span class="text-[9px] font-bold text-slate-400 uppercase block">Plataforma</span>
           <span class="font-bold text-white">{{device.platform}}</span>
         </div>
-        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10 backdrop-blur-md">
           <span class="text-[9px] font-bold text-slate-400 uppercase block">Inscripción</span>
           <span class="font-bold text-white">{{device.enrolledAt}}</span>
         </div>
-        <div class="bg-white/5 p-2.5 rounded-md border border-white/10">
+        <div class="bg-white/5 p-2.5 rounded-md border border-white/10 backdrop-blur-md">
           <span class="text-[9px] font-bold text-slate-400 uppercase block">Vulnerabilidades</span>
           <span class="font-bold text-red-300">{{device.criticalVulnerabilities}} Críticas</span>
         </div>
@@ -244,7 +244,7 @@
     </div>
 
     <!-- Empty State -->
-    <div *ngIf="devices().length === 0" class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-8 text-center text-xs text-slate-400">
+    <div *ngIf="devices().length === 0" class="bg-black/20 backdrop-blur-lg border border-white/15 rounded-lg p-8 text-center text-xs text-slate-400">
       Sin dispositivos registrados en esta vista.
     </div>
 

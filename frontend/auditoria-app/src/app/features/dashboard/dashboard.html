@@ -2,9 +2,9 @@
 
   <!-- Status Bar Offline Warnings -->
   <div class="flex flex-wrap items-center justify-end gap-3" *ngIf="fleet.isOffline() || activity.isOffline() || alerts.isOffline()">
-    <span *ngIf="fleet.isOffline()" class="text-xs font-bold text-amber-200 bg-amber-950/60 border border-amber-500/40 rounded-md px-3 py-1 backdrop-blur-md">Datos de dispositivos no disponibles</span>
-    <span *ngIf="activity.isOffline()" class="text-xs font-bold text-slate-300 bg-slate-900/60 border border-slate-500/40 rounded-md px-3 py-1 backdrop-blur-md">Actividad no disponible</span>
-    <span *ngIf="alerts.isOffline()" class="text-xs font-bold text-red-200 bg-red-950/60 border border-red-500/40 rounded-md px-3 py-1 backdrop-blur-md">Alertas no disponibles</span>
+    <span *ngIf="fleet.isOffline()" class="text-xs font-bold text-amber-200 bg-amber-950/40 border border-amber-500/40 rounded-md px-3 py-1 backdrop-blur-md">Datos de dispositivos no disponibles</span>
+    <span *ngIf="activity.isOffline()" class="text-xs font-bold text-slate-300 bg-slate-900/40 border border-slate-500/40 rounded-md px-3 py-1 backdrop-blur-md">Actividad no disponible</span>
+    <span *ngIf="alerts.isOffline()" class="text-xs font-bold text-red-200 bg-red-950/40 border border-red-500/40 rounded-md px-3 py-1 backdrop-blur-md">Alertas no disponibles</span>
   </div>
 
   <!-- Componente de Control Auditoria -->
@@ -13,9 +13,9 @@
   }
 
   <!-- ============================================================
-       HERO COMMAND BANNER (EXECUTIVE STUDIO GLASS HERO)
+       HERO COMMAND BANNER (MORE TRANSLUCENT GLASS)
   ============================================================ -->
-  <div class="bg-black/40 backdrop-blur-2xl text-white rounded-lg p-6 lg:p-8 shadow-2xl border border-white/15 relative overflow-hidden">
+  <div class="bg-black/20 backdrop-blur-lg text-white rounded-lg p-6 lg:p-8 shadow-2xl border border-white/15 relative overflow-hidden">
     <!-- Glow Background Accents -->
     <div class="absolute -top-24 -right-24 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
     <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -25,7 +25,7 @@
       <!-- Title & Live Status Pulse -->
       <div class="space-y-2 max-w-2xl">
         <div class="flex items-center gap-3">
-          <span class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+          <span class="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider backdrop-blur-md">
             <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             Centro de Mando Activo
           </span>
@@ -55,20 +55,20 @@
     </div>
 
     <!-- ============================================================
-         MATRIZ DE MÉTRICAS INNOVADORA (INTEGRATED GLASS CARDS)
+         MATRIZ DE MÉTRICAS INNOVADORA (MORE TRANSLUCENT GLASS CARDS)
     ============================================================ -->
     <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mt-7 pt-6 border-t border-white/10">
       
-      <div *ngFor="let m of metrics()" class="bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 rounded-md p-4 transition-all duration-200 group">
+      <div *ngFor="let m of metrics()" class="bg-black/20 hover:bg-white/10 backdrop-blur-md border border-white/15 rounded-md p-4 transition-all duration-200 group">
         <div class="flex items-center justify-between mb-2.5">
-          <div class="w-9 h-9 rounded-md flex items-center justify-center bg-white/10 text-emerald-300 group-hover:scale-105 transition-transform">
+          <div class="w-9 h-9 rounded-md flex items-center justify-center bg-white/10 text-emerald-300 group-hover:scale-105 transition-transform backdrop-blur-md">
             <svg *ngIf="m.icon==='shield-check'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
             <svg *ngIf="m.icon==='laptop'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
             <svg *ngIf="m.icon==='wrench'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.58 6.58a2 2 0 01-3-3l6.58-6.58a6 6 0 017.93-7.93l-3.76 3.76z"/></svg>
             <svg *ngIf="m.icon==='calendar'" class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
 
-          <span *ngIf="m.trend" class="text-[10px] font-bold px-2 py-0.5 rounded-md"
+          <span *ngIf="m.trend" class="text-[10px] font-bold px-2 py-0.5 rounded-md backdrop-blur-md"
                 [class.text-emerald-300]="m.up === true" [class.bg-emerald-500\/20]="m.up === true"
                 [class.text-amber-300]="m.up === false || m.up === null" [class.bg-amber-500\/20]="m.up === false || m.up === null">
             {{m.trend}}
@@ -89,8 +89,8 @@
   ============================================================ -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     
-    <!-- RENDIMIENTO SEMANAL CON INTERFAZ GLASS -->
-    <div class="lg:col-span-2 bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-6 shadow-2xl flex flex-col justify-between">
+    <!-- RENDIMIENTO SEMANAL CON INTERFAZ GLASS MÁS TRASLÚCIDA -->
+    <div class="lg:col-span-2 bg-black/20 backdrop-blur-lg border border-white/15 rounded-lg p-6 shadow-2xl flex flex-col justify-between">
       <div class="flex items-center justify-between mb-5">
         <div>
           <span class="text-[10px] font-bold tracking-wider text-emerald-400 uppercase">Tendencias</span>
@@ -99,7 +99,7 @@
         </div>
         
         @if (auth.role() !== 'viewer') {
-          <button (click)="downloadReport()" class="inline-flex items-center gap-1.5 text-xs text-slate-200 font-bold bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1.5 rounded-md transition-all cursor-pointer">
+          <button (click)="downloadReport()" class="inline-flex items-center gap-1.5 text-xs text-slate-200 font-bold bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1.5 rounded-md transition-all cursor-pointer backdrop-blur-md">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Exportar Datos
           </button>
@@ -138,7 +138,7 @@
     </div>
 
     <!-- STREAM DE RESUMEN OPERATIVO -->
-    <div class="bg-black/35 backdrop-blur-xl border border-white/15 rounded-lg p-6 shadow-2xl flex flex-col justify-between">
+    <div class="bg-black/20 backdrop-blur-lg border border-white/15 rounded-lg p-6 shadow-2xl flex flex-col justify-between">
       <div>
         <div class="flex items-center justify-between mb-5">
           <div>
@@ -149,7 +149,7 @@
         </div>
 
         <div class="space-y-3">
-          <div *ngFor="let a of recentIssues()" class="flex items-start gap-3 p-3 rounded-md bg-white/5 border border-white/10 transition-all hover:bg-white/10">
+          <div *ngFor="let a of recentIssues()" class="flex items-start gap-3 p-3 rounded-md bg-white/5 border border-white/10 transition-all hover:bg-white/10 backdrop-blur-md">
             <div class="mt-1 shrink-0">
               <div class="w-2.5 h-2.5 rounded-full" [class]="a.status === 'success' ? 'bg-emerald-400 shadow-sm shadow-emerald-400' : 'bg-amber-400 shadow-sm shadow-amber-400'"></div>
             </div>
@@ -166,7 +166,7 @@
       </div>
 
       @if (auth.role() !== 'viewer') {
-        <a routerLink="/history" class="mt-5 w-full py-2.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 text-center block">
+        <a routerLink="/history" class="mt-5 w-full py-2.5 bg-white/10 hover:bg-white/20 text-white text-xs font-bold rounded-md transition-all border border-white/15 text-center block backdrop-blur-md">
           Ver Registro Histórico Completo
         </a>
       }

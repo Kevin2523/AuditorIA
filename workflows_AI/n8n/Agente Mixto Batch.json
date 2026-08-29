@@ -197,17 +197,6 @@
         ]
       ]
     },
-    "Split Queries": {
-      "main": [
-        [
-          {
-            "node": "Route by Index",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Aggregate Results": {
       "main": [
         [
@@ -230,33 +219,22 @@
         ]
       ]
     },
-    "Store Queries": {
-      "main": [
-        [
-          {
-            "node": "GET TOKEN",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Combine Data": {
-      "main": [
-        [
-          {
-            "node": "Split Queries",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Prepare Queries": {
       "main": [
         [
           {
             "node": "Run All Parallel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run All Parallel": {
+      "main": [
+        [
+          {
+            "node": "Aggregate Results",
             "type": "main",
             "index": 0
           }

@@ -30,12 +30,17 @@ export class Login implements OnInit {
   readonly hasMfaTotp = signal(false);
   readonly hasPasskeys = signal(false);
   readonly passkeyLoading = signal(false);
+  readonly showPassword = signal(false);
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     otp: [''],
   });
+
+  toggleShowPassword(): void {
+    this.showPassword.update((val) => !val);
+  }
 
   ngOnInit() {
     if (this.route.snapshot.queryParamMap.get('timeout') === 'true') {
