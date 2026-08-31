@@ -19,7 +19,7 @@ interface WeeklySecurityPoint {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, AuditoriaComponent],
+  imports: [CommonModule, AuditoriaComponent],
   templateUrl: './dashboard.html',
 })
 export class Dashboard {

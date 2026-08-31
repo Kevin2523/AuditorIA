@@ -21,7 +21,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/login",
+        "url": "https://fleet:1337/api/v1/fleet/login",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "{\n  \"email\": \"kjmg2325@gmail.com\",\n  \"password\": \"@Stayhumble521\"\n}",
@@ -102,7 +102,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/global/policies",
+        "url": "https://fleet:1337/api/v1/fleet/global/policies",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -145,7 +145,7 @@
     },
     {
       "parameters": {
-        "url": "https://host.docker.internal:1337/api/v1/fleet/hosts",
+        "url": "https://fleet:1337/api/v1/fleet/hosts",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
@@ -184,7 +184,7 @@
     {
       "parameters": {
         "method": "PATCH",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1",
+        "url": "https://fleet:1337/api/v1/fleet/reports/1",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -213,7 +213,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://host.docker.internal:1337/api/v1/fleet/reports/1/run",
+        "url": "https://fleet:1337/api/v1/fleet/reports/1/run",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -225,7 +225,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"query_ids\": [1],\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
+        "jsonBody": "={\n  \"host_ids\": {{ JSON.stringify($('Get Hosts').item.json.hosts.map(h => h.id)) }}\n}",
         "options": {
           "allowUnauthorizedCerts": true
         }

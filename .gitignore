@@ -62,4 +62,5 @@ documentos_para_entregas
 documentos para entregas/
 
 # Windows reserved names
-nul
+nulhosts.json
+reports.json

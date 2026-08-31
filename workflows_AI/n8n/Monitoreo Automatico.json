@@ -1,0 +1,290 @@
+{
+  "name": "Monitoreo Automático de Seguridad",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -200,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000001",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://fleet:1337/api/v1/fleet/login",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"email\": \"kjmg2325@gmail.com\",\n  \"password\": \"@Stayhumble521\"\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000002",
+      "name": "GET TOKEN"
+    },
+    {
+      "parameters": {
+        "jsCode": "const token = $input.first().json.token;\nconst securityChecks = [{\"reportId\": 1, \"query\": \"SELECT pid, port, protocol, address FROM listening_ports WHERE pid != 0 AND port NOT IN (80,443,5678,1337,3000,3001,4200,5432,6379,3306) ORDER BY port\", \"description\": \"Puertos inusuales abiertos\", \"category\": \"red\"}, {\"reportId\": 7, \"query\": \"SELECT name, display_name, status, start_type, path FROM services WHERE start_type='auto' AND status='stopped' LIMIT 20\", \"description\": \"Servicios criticos detenidos\", \"category\": \"servicios\"}, {\"reportId\": 8, \"query\": \"SELECT name, action, path FROM scheduled_tasks WHERE enabled=1 AND (action LIKE '%wscript%' OR action LIKE '%cscript%' OR action LIKE '%powershell%')\", \"description\": \"Tareas programadas sospechosas\", \"category\": \"amenazas\"}, {\"reportId\": 9, \"query\": \"SELECT name, vendor, model, serial FROM usb_devices\", \"description\": \"Dispositivos USB conectados\", \"category\": \"hardware\"}, {\"reportId\": 10, \"query\": \"SELECT firewall, antivirus, autoupdate FROM windows_security_center\", \"description\": \"Estado de seguridad Windows\", \"category\": \"seguridad\"}, {\"reportId\": 11, \"query\": \"SELECT name, version, publisher FROM programs WHERE name LIKE '%AnyDesk%' OR name LIKE '%TeamViewer%' OR name LIKE '%Chrome Remote%' OR name LIKE '%ngrok%'\", \"description\": \"Herramientas de acceso remoto\", \"category\": \"amenazas\"}, {\"reportId\": 12, \"query\": \"SELECT pid, name, path, cmdline FROM processes WHERE (name LIKE '%netcat%' OR name LIKE '%nc.exe%' OR name LIKE '%ncat%' OR name LIKE '%socat%' OR cmdline LIKE '%reverse%shell%')\", \"description\": \"Procesos de acceso no autorizado\", \"category\": \"amenazas\"}, {\"reportId\": 13, \"query\": \"SELECT pid, name, path, cmdline FROM processes WHERE cmdline LIKE '%curl%http%' OR cmdline LIKE '%wget%http%' OR cmdline LIKE '%Invoke-WebRequest%'\", \"description\": \"Procesos descargando contenido\", \"category\": \"amenazas\"}, {\"reportId\": 14, \"query\": \"SELECT name, version, publisher FROM programs WHERE name LIKE '%7-Zip%' OR name LIKE '%WinRAR%' OR name LIKE '%WinZip%' OR name LIKE '%PeaZip%'\", \"description\": \"Herramientas de compresion\", \"category\": \"software\"}, {\"reportId\": 15, \"query\": \"SELECT name, version, publisher FROM programs WHERE name LIKE '%PuTTY%' OR name LIKE '%WinSCP%' OR name LIKE '%FileZilla%' OR name LIKE '%CyberDuck%'\", \"description\": \"Clientes FTP/SSH instalados\", \"category\": \"software\"}, {\"reportId\": 16, \"query\": \"SELECT user, tty, pid, uid, host, time FROM logged_in_users WHERE type='remote'\", \"description\": \"Sesiones remotas activas\", \"category\": \"usuarios\"}, {\"reportId\": 17, \"query\": \"SELECT destination, netmask, gateway, flags, interface FROM routes WHERE destination != '0.0.0.0' AND destination != '127.0.0.0' AND gateway != ''\", \"description\": \"Tabla de rutas de red\", \"category\": \"red\"}, {\"reportId\": 18, \"query\": \"SELECT interface, address, mask, broadcast, mac FROM interface_addresses WHERE interface != 'lo' AND address != '127.0.0.1'\", \"description\": \"Interfaces de red activas\", \"category\": \"red\"}, {\"reportId\": 19, \"query\": \"SELECT device_id, protection_status, encryption_method, percentage_encrypted FROM bitlocker_info\", \"description\": \"Estado de cifrado de disco\", \"category\": \"seguridad\"}, {\"reportId\": 20, \"query\": \"SELECT hostname, hardware_vendor, hardware_model, hardware_serial FROM system_info\", \"description\": \"Informacion del hardware\", \"category\": \"hardware\"}, {\"reportId\": 21, \"query\": \"SELECT name, version, build, platform FROM os_version\", \"description\": \"Version del sistema operativo\", \"category\": \"sistema\"}, {\"reportId\": 22, \"query\": \"SELECT uid, gid, username, description, directory, shell FROM users WHERE uid >= 1000\", \"description\": \"Usuarios del sistema\", \"category\": \"usuarios\"}, {\"reportId\": 23, \"query\": \"SELECT name, display_name, status, start_type, path FROM services WHERE status='running' AND path NOT LIKE 'C:\\\\Windows%' AND path NOT LIKE 'C:\\\\Program Files%' LIMIT 20\", \"description\": \"Servicios no estandar en ejecucion\", \"category\": \"amenazas\"}, {\"reportId\": 24, \"query\": \"SELECT pid, name, path, cmdline, user FROM processes WHERE user != 'NT AUTHORITY\\\\SYSTEM' AND user != 'NT AUTHORITY\\\\LOCAL SERVICE' AND user != 'NT AUTHORITY\\\\NETWORK SERVICE' ORDER BY phys_footprint DESC LIMIT 20\", \"description\": \"Procesos de usuario con mas memoria\", \"category\": \"procesos\"}, {\"reportId\": 25, \"query\": \"SELECT name, version, publisher, install_location FROM programs WHERE install_location LIKE '%temp%' OR install_location LIKE '%AppData%Local%Temp%'\", \"description\": \"Software en carpetas temporales\", \"category\": \"amenazas\"}];\nreturn [{ json: { token, securityChecks } }];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        200,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000003",
+      "name": "Prepare Security Checks"
+    },
+    {
+      "parameters": {
+        "url": "https://fleet:1337/api/v1/fleet/hosts",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $json.token }}"
+            }
+          ]
+        },
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        400,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000004",
+      "name": "Get Hosts"
+    },
+    {
+      "parameters": {
+        "jsCode": "const token = $('Prepare Security Checks').first().json.token;\nconst hostIds = $input.first().json.hosts.filter(h => h.status === 'online').map(h => ({ id: h.id, hostname: h.hostname }));\nconst allChecks = $('Prepare Security Checks').first().json.securityChecks;\nconst maxChecksPerRun = 4;\nconst chunkCount = Math.ceil(allChecks.length / maxChecksPerRun);\nconst chunkIndex = Math.floor(Date.now() / (30 * 60 * 1000)) % chunkCount;\nconst checks = allChecks.slice(chunkIndex * maxChecksPerRun, (chunkIndex + 1) * maxChecksPerRun);\nconst results = [];\n\nfor (const check of checks) {\n  try {\n    await this.helpers.httpRequest({\n      method: 'PATCH',\n      url: `https://fleet:1337/api/v1/fleet/reports/${check.reportId}`,\n      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },\n      body: { query: check.query },\n      json: true\n    });\n\n    const result = await this.helpers.httpRequest({\n      method: 'POST',\n      url: `https://fleet:1337/api/v1/fleet/reports/${check.reportId}/run`,\n      headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },\n      body: { host_ids: hostIds.map(h => h.id) },\n      json: true\n    });\n\n    results.push({\n      json: {\n        description: check.description,\n        category: check.category,\n        query: check.query,\n        result: result,\n        hostnames: hostIds.map(h => h.hostname),\n        monitor_chunk: { index: chunkIndex + 1, total: chunkCount, checked: checks.length, total_checks: allChecks.length }\n      }\n    });\n  } catch (error) {\n    results.push({\n      json: {\n        description: check.description,\n        category: check.category,\n        error: error.message,\n        monitor_chunk: { index: chunkIndex + 1, total: chunkCount, checked: checks.length, total_checks: allChecks.length }\n      }\n    });\n  }\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        600,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000005",
+      "name": "Run Security Checks"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst alerts = [];\n\nfor (const item of items) {\n  const data = item.json;\n  \n  if (data.error) {\n    alerts.push({\n      json: {\n        dispositivo: 'Sistema',\n        mensaje: `Error en check \"${data.description}\": ${data.error}`,\n        severidad: 'info',\n        timestamp: new Date().toISOString(),\n        raw: data\n      }\n    });\n    continue;\n  }\n\n  const result = data.result;\n  if (!result || !result.results) continue;\n\n  for (const hostResult of result.results) {\n    if (hostResult.rows && hostResult.rows.length > 0) {\n      const hostname = data.hostnames?.find((h, i) => {\n        const hostId = result.results.indexOf(hostResult);\n        return true;\n      }) || 'Desconocido';\n\n      let severidad = 'low';\n      if (data.category === 'amenazas') severidad = 'critical';\n      else if (data.category === 'servicios') severidad = 'high';\n      else if (data.category === 'red') severidad = 'medium';\n\n      alerts.push({\n        json: {\n          dispositivo: hostname,\n          mensaje: `${data.description}: ${hostResult.rows.length} hallazgo(s) detectado(s) en ${hostname}`,\n          severidad: severidad,\n          timestamp: new Date().toISOString(),\n          raw: { check: data.description, category: data.category, rows: hostResult.rows.slice(0, 5) }\n        }\n      });\n    }\n  }\n}\n\nif (alerts.length === 0) {\n  alerts.push({\n    json: {\n      dispositivo: 'Sistema',\n      mensaje: 'Monitoreo completado: Sin anomalías detectadas en esta ronda.',\n      severidad: 'info',\n      timestamp: new Date().toISOString(),\n      raw: { checks: items.length }\n    }\n  });\n}\n\nreturn alerts;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000006",
+      "name": "Analyze Results"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3001/api/v1/webhooks/n8n/alerts",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({dispositivo: $json.dispositivo, mensaje: $json.mensaje, severidad: $json.severidad, timestamp: $json.timestamp, raw: $json.raw}) }}",
+        "options": {},
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-auditoria-webhook-secret",
+              "value": "change_me_n8n_webhook_secret"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1000,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000007",
+      "name": "Send Alert to Backend"
+    },
+    {
+      "parameters": {
+        "model": "mimo-v2.5",
+        "options": {
+          "baseURL": "https://opencode.ai/zen/go/v1"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        200
+      ],
+      "id": "a0000001-0000-0000-0000-000000000010",
+      "name": "OpenCode Go Model",
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Rol: Eres un Analista de Ciberseguridad Senior en el SOC de AuditorIA AI.\n\nDatos del hallazgo:\n- Dispositivo: {{ $json.dispositivo }}\n- Categoría: {{ $json.raw.category || 'general' }}\n- Hallazgo: {{ $json.mensaje }}\n- Severidad: {{ $json.severidad }}\n\nTu tarea: Genera una alerta clara y concisa explicando qué se detectó y qué acción tomar.\n\nReglas:\n- PROHIBIDO saludar, despedir o frases decorativas.\n- Tono técnico, frío y directo.\n- Máximo 2 líneas.\n- Termina con una recomendación de acción concreta.\n\nEjemplo:\nCRÍTICO: Tarea programada ejecutando script VBS oculto en Laptop-Kevin. Revisar y eliminar la tarea sospechosa.",
+        "messages": {
+          "messageValues": []
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1200,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000011",
+      "name": "Generar Alerta IA"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Map LLM output to backend format\nconst items = $input.all();\nreturn items.map(item => {\n  const aiMessage = item.json.text || item.json.output || item.json.response || 'Alerta generada sin detalles';\n  const prev = $('Analyze Results').first().json;\n  \n  return {\n    json: {\n      dispositivo: prev.dispositivo || 'Sistema',\n      mensaje: aiMessage,\n      severidad: prev.severidad || 'info',\n      timestamp: new Date().toISOString(),\n      raw: prev.raw || {}\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        0
+      ],
+      "id": "a0000001-0000-0000-0000-000000000020",
+      "name": "Map Alert Format"
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "GET TOKEN",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET TOKEN": {
+      "main": [
+        [
+          {
+            "node": "Prepare Security Checks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Security Checks": {
+      "main": [
+        [
+          {
+            "node": "Get Hosts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Hosts": {
+      "main": [
+        [
+          {
+            "node": "Run Security Checks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Security Checks": {
+      "main": [
+        [
+          {
+            "node": "Analyze Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Results": {
+      "main": [
+        [
+          {
+            "node": "Generar Alerta IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generar Alerta IA": {
+      "main": [
+        [
+          {
+            "node": "Map Alert Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenCode Go Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generar Alerta IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Map Alert Format": {
+      "main": [
+        [
+          {
+            "node": "Send Alert to Backend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "id": "8NknPRdj93ui8WSj",
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

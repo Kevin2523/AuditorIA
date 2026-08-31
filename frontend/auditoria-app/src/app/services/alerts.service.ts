@@ -7,22 +7,28 @@ export type AlertStatus = 'open' | 'acknowledged' | 'resolved' | 'dismissed';
 
 export interface AuditorIAAlert {
   id: string;
-  tenantId: string;
-  source: string;
+  tenantId?: string;
+  dispositivo?: string;
+  mensaje?: string;
+  severidad?: AlertSeverity;
+  status?: AlertStatus;
+  timestamp?: string;
+  createdAt?: string;
+  raw?: unknown;
+
+  // Fallback compatibility fields
   deviceId?: string | null;
   hostname?: string | null;
-  message: string;
-  severity: AlertSeverity;
-  status: AlertStatus;
-  occurredAt: string;
-  receivedAt: string;
-  raw?: unknown;
+  message?: string;
+  severity?: AlertSeverity;
+  occurredAt?: string;
+  receivedAt?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AlertsService {
-  private readonly endpoint = '/api/v1/alerts?limit=20';
-  private readonly pollMs = 10_000;
+  private readonly endpoint = '/api/v1/alerts';
+  private readonly pollMs = 30_000; // 30 segundos polling
 
   readonly alerts = signal<AuditorIAAlert[]>([]);
   readonly loading = signal(true);
@@ -30,9 +36,19 @@ export class AlertsService {
 
   readonly alerts$ = timer(0, this.pollMs).pipe(
     switchMap(() =>
-      this.http.get<{ alerts: AuditorIAAlert[] }>(this.endpoint).pipe(
-        map((response) => ({ alerts: response.alerts, offline: false })),
-        catchError(() => of({ alerts: [] as AuditorIAAlert[], offline: true })),
+      this.http.get<any>(this.endpoint).pipe(
+        map((response) => {
+          let list: AuditorIAAlert[] = [];
+          if (Array.isArray(response)) {
+            list = response;
+          } else if (response && Array.isArray(response.data)) {
+            list = response.data;
+          } else if (response && Array.isArray(response.alerts)) {
+            list = response.alerts;
+          }
+          return { alerts: list.slice(0, 20), offline: false };
+        }),
+        catchError(() => of({ alerts: this.alerts(), offline: true })),
       ),
     ),
     tap(({ alerts, offline }) => {

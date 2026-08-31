@@ -31,7 +31,7 @@ export const routes: Routes = [
       },
       { 
         path: 'history', 
-        loadComponent: () => import('./features/history/history').then(m => m.History)
+        redirectTo: 'dashboard'
       },
       {
         path: 'assistant',
